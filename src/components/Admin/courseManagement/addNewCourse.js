@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import Stepper from "react-stepper-horizontal/lib/Stepper";
 import "./_addCourse.scss";
 import Modal from "react-modal";
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux'
+import { addNewCourse } from '../../../redux/actions/institute/addCourseAction'
+
+
+
 
 const customStyles = {
   content: {
@@ -15,15 +21,16 @@ const customStyles = {
 };
 
 const AddNewCourse = props => {
+  const {postCourseDetails} = props
   const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [arabic, setArabic] = useState([])
 
   const [english, setEnglish] = useState([])
   const [msg, setMsg] = useState("")
-  const [state,setState ] = useState({
-    degree: null,
-    subject: null,
+  const [state, setState] = useState({
+    // degree: null,
+    // subject: null,
     english_description: null,
     arabic_description: null,
     english_tittle: null,
@@ -33,14 +40,18 @@ const AddNewCourse = props => {
     pre_requests: null,
     languages: null,
     learning_outcomes: null,
-    promo_video: [], // to be array
+    promo_video: null, // to be array
     thumbnail: null,
+    price_type: null, // 1=> Paid, 2=>Free
+    original_amount: null, // Numbers
     price: {
-      price_type: null, // 1=> Paid, 2=>Free
-      origional_amount: null // Numbers
     },
     institute_id: null, // Object id
-    keywords: [] // to be array
+    keywords: [], // to be array
+    institute_id: "5e906b247b0a8711dc069706",
+    degree: '5e9946616b6f3b3750929c48',
+    subject: '5e888d4ef0173722046475cd'
+
   })
 
   const handleNext = () => {
@@ -127,29 +138,56 @@ const AddNewCourse = props => {
   }
 
 
-  const onChangeHandler = e=> {
+  const onChangeHandler = e => {
     let name = e.target.name
     let value = e.target.value
 
-    if(name === "promo_video"){
+    if (name === "promo_video") {
       setState({
         ...state,
-        [name]: [...state.promo_video ,e.target.file[0]]
+        [name]: e.target.files[0]
       })
+      return true
     }
-    if(name === "keywords"){
+
+    if (name === "thumbnail") {
       setState({
         ...state,
-        [name]: [...arabic,...english]
+        [name]: e.target.files[0]
       })
+      return true
+
     }
-    if(name === "price"){
-      
+
+    setState({
+      ...state,
+      [name]: value
+    })
+
+
+
+  }
+
+  const setttingUp = ()=>{
+    let newObj = {
+      price_type: state.price_type, // 1=> Paid, 2=>Free
+      original_amount: state.original_amount
     }
 
+    setState({
+      ...state,
+      price: newObj,
+      keywords: [...arabic, ...english]
 
+    })
 
+    return true
+  }
 
+  const onSubmitHandler = () => {
+    // let newResp = await setttingUp()
+    postCourseDetails(state, "institute")
+  
 
   }
 
@@ -221,52 +259,54 @@ const AddNewCourse = props => {
 
                 <div className="side-input-right">
 
-                  <select name="degree" 
-                    onChange={onChangeHandler}
-                  id="" className="side-text-select">
-                    <option value="1" className="side-text-option select-text-option">Select Degree</option>
+                  <select 
+                  // name="degree"
+                    // onChange={onChangeHandler}
+                    id="" className="side-text-select">
+                    <option value="0" className="side-text-option select-text-option">Select Degree</option>
 
-                    <option value="1" className="side-text-option">1</option>
-                    <option value="2" className="side-text-option">2</option>
-                    <option value="3" className="side-text-option">3</option>
+                    <option value="degree 1" className="side-text-option">1</option>
+                    <option value="degree 2" className="side-text-option">2</option>
+                    <option value="degree 3" className="side-text-option">3</option>
                   </select>
                 </div>
                 <div className="side-input-right">
 
-                  <select name="subject"
-                    onChange={onChangeHandler}
+                  <select 
+                  // name="subject"
+                    // onChange={onChangeHandler}
                     id="" className="side-text-select ">
-                    <option value="1" className="side-text-option select-text-option">Select Subject</option>
+                    <option value="0" className="side-text-option select-text-option">Select Subject</option>
 
-                    <option value="1" className="side-text-option">1</option>
-                    <option value="2" className="side-text-option">2</option>
-                    <option value="3" className="side-text-option">3</option>
+                    <option value="subject 1" className="side-text-option">1</option>
+                    <option value="subject 2" className="side-text-option">2</option>
+                    <option value="subject 3" className="side-text-option">3</option>
                   </select>
                 </div>
                 <div className="side-input-right">
-                  <input type="text" className="side-text-input-field" 
+                  <input type="text" className="side-text-input-field"
                     name="english_tittle"
                     onChange={onChangeHandler}
-                    />
-                </div>
-                <div className="side-input-right">
-
-                  <input type="text" className="side-text-input-field" 
-                  name="english_sub_tittle"
-                  onChange={onChangeHandler}
                   />
                 </div>
                 <div className="side-input-right">
-                  <textarea name="description-english" 
-                   name="english_description"
-                   onChange={onChangeHandler}
-                  
-                  id="" cols="30" rows="10" className="side-text-textarea"></textarea>
+
+                  <input type="text" className="side-text-input-field"
+                    name="english_sub_tittle"
+                    onChange={onChangeHandler}
+                  />
                 </div>
                 <div className="side-input-right">
-                  <input type="text" className="side-text-input-field" 
-                   name="pre_requests"
-                   onChange={onChangeHandler}
+                  <textarea name="description-english"
+                    name="english_description"
+                    onChange={onChangeHandler}
+
+                    id="" cols="30" rows="10" className="side-text-textarea"></textarea>
+                </div>
+                <div className="side-input-right">
+                  <input type="text" className="side-text-input-field"
+                    name="pre_requests"
+                    onChange={onChangeHandler}
                   />
                 </div>
               </div>
@@ -301,31 +341,31 @@ const AddNewCourse = props => {
                 <div className="side-text-right">
 
                   <select name="languages"
-                   onChange={onChangeHandler} id="" className="side-text-select ">
+                    onChange={onChangeHandler} id="" className="side-text-select ">
                     <option value="0" className=" select-text-option">Select Subject</option>
 
-                    <option value="1" className="side-text-option">1</option>
-                    <option value="2" className="side-text-option">2</option>
-                    <option value="3" className="side-text-option">3</option>
+                    <option value="langugage 1" className="side-text-option">1</option>
+                    <option value="langugage 2" className="side-text-option">2</option>
+                    <option value="langugage 3" className="side-text-option">3</option>
                   </select>
                 </div>
                 <div className="side-text-right">
-                  <input type="text" className="side-text-input-field" 
-                   name="arabic_tittle"
-                   onChange={onChangeHandler}
+                  <input type="text" className="side-text-input-field"
+                    name="arabic_tittle"
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <div className="side-text-right">
-                  <input type="text" className="side-text-input-field" 
-                   name="arabic_sub_tittle"
-                   onChange={onChangeHandler}
+                  <input type="text" className="side-text-input-field"
+                    name="arabic_sub_tittle"
+                    onChange={onChangeHandler}
                   />
                 </div>
                 <div className="side-text-right">
-                  <textarea name="description-arabic" 
-                  name="arabic_description"
-                  onChange={onChangeHandler}
-                  id="" cols="30" rows="10" className="side-text-textarea"></textarea>
+                  <textarea name="description-arabic"
+                    name="arabic_description"
+                    onChange={onChangeHandler}
+                    id="" cols="30" rows="10" className="side-text-textarea"></textarea>
                 </div>
 
               </div>
@@ -382,11 +422,11 @@ const AddNewCourse = props => {
                 </label>
               </div>
               <div className="col-md-3">
-                <label htmlFor="input-video">
+                <label htmlFor="input-thumbnail">
                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ-fDggq-RXXdrZVmQLzwFV3PSFla6NKyIn_6wZyxtNK9j0fXel&usqp=CAU" alt="" />
                 </label>
                 <input type="file" name="thumbnail"
-                  onChange={onChangeHandler} id="input-video" className="input-file" />
+                  onChange={onChangeHandler} id="input-thumbnail" className="input-file" />
               </div>
 
             </div>
@@ -411,7 +451,7 @@ const AddNewCourse = props => {
                   Paid
                 </label>
                 <input type="radio"
-                  
+
                   name="price_type" id="price" value="1" className="hidden"
                   onChange={onChangeHandler}
                 />
@@ -432,7 +472,7 @@ const AddNewCourse = props => {
 
             <div className="amount-input">
               <div className="_input-amount">
-                <input type="number" name="origional_amount" id="" className="_add-price-input"
+                <input type="number" name="original_amount" id="" className="_add-price-input"
                   placeholder="Enter amount between 1-100$"
                   onChange={onChangeHandler}
                 />
@@ -497,7 +537,9 @@ const AddNewCourse = props => {
 
                 <input type="text" className="tag-input-2" id="input-tags-2" name="tagsArabic"
                   placeholder="Enter Keywords in Arabic"
-                  onChange={addTags} />
+                  onChange={addTags} 
+                  // onBlur={setttingUp}
+                  />
               </div>
               {
                 msg ? <p
@@ -529,11 +571,22 @@ const AddNewCourse = props => {
             Cancel
           </button>
           {activeStep !== 3 ? (
-            <button className="primaryBtn" onClick={handleNext}>
+            <button className="primaryBtn"
+              onClick={handleNext}
+            // onClick={onSubmitHandler}
+            >
               Continue
             </button>
           ) : (
-              <button className="primaryBtn" onClick={() => setModalOpen(true)}>Done</button>
+              <button className="primaryBtn" onClick={() => {
+                setModalOpen(true)
+                onSubmitHandler()
+              }
+              }
+              onMouseOver={setttingUp}
+              
+              
+              >Done</button>
             )}
         </div>
       </div>
@@ -554,4 +607,21 @@ const AddNewCourse = props => {
     </div>
   );
 };
-export default AddNewCourse;
+
+
+let mapStateToProps = store => {
+
+  return {
+    userDetail: store.auth.userDetail
+  }
+}
+let mapDispatchToProps = dispatch => {
+  return {
+    postCourseDetails: (data,user)=>{
+      dispatch(addNewCourse(data,user))
+    }
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AddNewCourse))

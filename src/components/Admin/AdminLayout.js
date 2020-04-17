@@ -13,15 +13,16 @@ import plusCircle from "./adminAssets/plus-circle.png";
 import stock from "./adminAssets/stock.png";
 import CourseManagement from './courseManagement/courseManagement'
 import AddNewCourse from "./courseManagement/addNewCourse";
+import ViewCourseDetails from './courseManagement/viewCourseDetails'
 
 
 const AdminLayout = ({ match }) => {
-  const [focused , setFocused] = useState("home");
- 
+  const [focused, setFocused] = useState("home");
+
   useEffect(() => {
     document.getElementById(focused).focus();
-  },[focused])
-  
+  }, [focused])
+
   return (
     <Fragment>
       <AdminTopNavbar />
@@ -29,22 +30,22 @@ const AdminLayout = ({ match }) => {
         <ul className="links-list">
           <li>
             <Link to={routes.OfferCourse} id="home" onClick={() => setFocused("home")}>
-                <img src={home} alt="home" />
+              <img src={home} alt="home" />
             </Link>
           </li>
           <li>
             <Link to={routes.RegisterAsInstitute} id="user" onClick={() => setFocused("user")}>
-                <img src={user} alt="user" title="user"/>
+              <img src={user} alt="user" title="user" />
             </Link>
           </li>
           <li>
             <Link to={routes.CourseManagement} id="plus" onClick={() => setFocused("plus")}>
-                <img src={plusCircle} alt="plus" />
+              <img src={plusCircle} alt="plus" />
             </Link>
           </li>
           <li>
             <Link to={routes.OfferService}>
-                <img src={stock} alt="stock-icon"  id="stock" onClick={() => setFocused("stock")}/>
+              <img src={stock} alt="stock-icon" id="stock" onClick={() => setFocused("stock")} />
             </Link>
           </li>
           <li></li>
@@ -62,13 +63,19 @@ const AdminLayout = ({ match }) => {
           <Route
             exact
             path={routes.RegisterAsInstitute}
-            component={RegisterAsInstitutePage}  
+            component={RegisterAsInstitutePage}
           />
-          <Route 
-          exact
-          path={routes.AddNewCourse}
-          component={AddNewCourse}
+          <Route
+            exact
+            path={routes.AddNewCourse}
+            component={AddNewCourse}
           />
+          <Route
+            exact
+            path={routes.ViewCourseDetails}
+            component={ViewCourseDetails}
+          />
+
           <Route path="*" component={() => <div>No page found</div>} />
         </Switch>
       </section>

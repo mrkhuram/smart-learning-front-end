@@ -28,6 +28,8 @@ p {
     margin: 0px;
     margin-right: 70px;
     color: $primary !important;
+    font-weight: 500;
+    font-size: 1.2rem;
   }
   p {
     display: flex;
@@ -140,9 +142,7 @@ p {
     }
   }
 }
-.time-down-col {
-  padding-left: 100px;
-}
+
 
 /// RESPONSIVENESS
 @media (max-width: 991px) {
@@ -221,11 +221,7 @@ p {
     display: flex;
     flex-direction: column-reverse;
   }
-  .time-down-col {
-    padding: 0px;
-    display: flex;
-    justify-content: center;
-  }
+
   .about {
     display: flex;
     flex-direction: column;
@@ -234,4 +230,89 @@ p {
 }
 .manage_width{
    width: 90%;
+}
+
+
+.view-course-outer{
+    display: flex;
+    .view-course-text{
+        color: #0e0e0e;
+        text-transform: capitalize;
+    }
+    .view-course-caption{
+        color: grey;
+        text-transform: capitalize;
+        position: relative;
+        top: -5px;
+    }
+    .right-error{
+        .add-chapter-error{
+            background-color: #d80000;
+            color: white;
+            padding: 15px 30px;
+            // display: flex;
+            border-radius: 5px;
+        }
+    }
+}
+.video-section{
+    background-color: #373737;
+    .heading,.last-updated{
+        color: white;   
+    }
+    .error-box-edit{
+        color: white;
+        display: flex;
+        // align-items: right;
+        position: absolute;
+        right: 0;
+        top: 5px;
+        margin-right: 10px;
+        
+    }
+    .not-editable{
+        height: 55px;
+        width: 200px;
+        padding: 5px 20px ;
+        background: #f9f9f9;
+        color: black;
+        font-size: 15px;
+        margin-right: 10px;
+        margin-top: 10px;
+        // outline: 1px solid black;
+        border-radius: 5px;
+        font-weight: 500;
+        text-align: center;
+        // box-shadow: 2px 0px 10px black;
+
+    }
+    .edit-icon{
+        margin-top: 5px;
+        font-size: 15px;
+        color: grey;
+    }
+    .edit-text{
+        flex: 1;
+        display: inline-block;
+        margin-left: 5px;
+        color: grey;
+    }
+    .contact-admin{
+        font-size: 12px;
+        color: $primary !important;
+        font-weight: 500;
+    }
+}
+.description-section{
+    display: flex;
+    .icon-text{
+        position: absolute;
+        right: 0px;
+        margin-top: 10px;
+    }
+    .not-editable{
+        position: absolute;
+        right: 70px;
+        top: 40px;
+    }
 }

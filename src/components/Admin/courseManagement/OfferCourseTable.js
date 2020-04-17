@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,6 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from "./Modal";
+import { Link } from "react-router-dom";
+import * as router from '../../../constants/routePaths'
 
 
 const PurpleSwitch = withStyles({
@@ -65,8 +67,13 @@ const OfferCourseTable = ({ headings, data }) => {
       open={anchorEl}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Remove</MenuItem>
+
+      <Link to={router.ViewCourseDetails}>
+        <MenuItem onClick={handleMenuClose}>View Course Details</MenuItem>
+      </Link>
+
+      <MenuItem onClick={handleMenuClose}>Edit Course</MenuItem>
+
     </Menu>
   );
 
@@ -76,7 +83,7 @@ const OfferCourseTable = ({ headings, data }) => {
     <>
       <Modal
         open={open}
-        handleCloseModal={handleCloseModal}     
+        handleCloseModal={handleCloseModal}
         onClose={handleCloseModal}
       />
       <table className="table table_course_management table-borderless">
