@@ -13,6 +13,9 @@ import './viewCourse.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
 import AddChapters from './chapters'
+import QuestionAsked from './questions'
+import { faReply } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const dummText =
@@ -386,7 +389,33 @@ const chapter = [
     },
 ]
 
+const questions = [
+    {
+        display_image: "U",
+        name: "usman ahmad",
+        time: "5 day ago",
+        question: "After the course, it's all about us to use what we learn love the courses made it by chad Please ans me as soon as possible."
+    },
+    {
+        display_image: "U",
+        name: "usman ahmad",
+        time: "5 day ago",
+        question: "After the course, it's all about us to use what we learn love the courses made it by chad Please ans me as soon as possible."
+    },
+    {
+        display_image: "U",
+        name: "usman ahmad",
+        time: "5 day ago",
+        question: "After the course, it's all about us to use what we learn love the courses made it by chad Please ans me as soon as possible."
+    },
+    {
+        display_image: "U",
+        name: "usman ahmad",
+        time: "5 day ago",
+        question: "After the course, it's all about us to use what we learn love the courses made it by chad Please ans me as soon as possible."
+    }
 
+]
 
 
 const ViewCourseDetails = props => {
@@ -487,17 +516,38 @@ const ViewCourseDetails = props => {
                                 }
                             </div>
 
-                            <h6 className="spacing">Requirements</h6>
-                            <div className="course-topic-box">
-                                <div className="row">
-                                    {arr.map(v => {
-                                        return (
-                                            <div key={v} className="course-topic col-md-12 col-md-6">
-                                                Understand the theory of biology
-                                            </div>
-                                        );
-                                    })}
+                            <div className="student-question-outer row">
+
+                                <p className="spacing student-question-heading">Student Questions</p>
+
+                                <select name="" id="" className="select-topic-in-question">
+
+                                    <option value="select topic">Select Topic</option>
+                                    <option value="0">topic #1</option>
+                                    <option value="1">topic #2</option>
+                                    <option value="2">topic #3</option>
+                                    <option value="3">topic #4</option>
+                                    <option value="4">topic #5</option>
+
+
+                                </select>
+                                <div className="_width">
+
+                                    <p className="student-question-topic-text"> Topic - </p>
+                                    <h5 className="spacing course-title">Role of White Blood cells in our body</h5>
                                 </div>
+                                <div className="total-question-asked-outer">
+                                    <p className="total-question">Total Question Asked : <span className="question-number">101</span> </p>
+                                    <p className="all-question">All : <span className="question-number-all">101</span> </p>
+                                    <p className="replied-question">Replied : <span className="question-number">101</span> </p>
+                                    <p className="un-replied-question">Un-Replied : <span className="question-number-unReplied">101</span> </p>
+                                </div>
+
+                                {
+                                    questions.map((item,index)=>{
+                                        return <QuestionAsked ques={item}/> 
+                                    })
+                                }
                             </div>
                         </div>
                         <div className="col-md-12 col-lg-4 description-section">
@@ -524,61 +574,7 @@ const ViewCourseDetails = props => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-12 instructor-detail">
-                    <h6 className="spacing">About Instructor</h6>
-                    <div className="row">
-                        <div className="col-md-12 col-lg-7 ">
-                            <div className="row">
-                                <div className="col-md-12 col-md-4 about">
-                                    <div className=" avatar-cntnr">
-                                        <img
-                                            className="img-fluid"
-                                            src={require("../../../assets/Images/saqii.jpg")}
-                                            // src="https://scontent.fkhi10-1.fna.fbcdn.net/v/t1.0-9/48994275_252190439003234_3750715461226987520_n.jpg?_nc_cat=105&_nc_ohc=YueN6f_j-wwAX_eC6ip&_nc_ht=scontent.fkhi10-1.fna&oh=9be76991917286faa3bc3bcc5ea00ae5&oe=5EF919C0"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <h6 className="">Muhammad Ishaq</h6>
-                                    <p className="">MERN stack developer</p>
-                                    <ul>
-                                        <li className="courses">
-
-                                            <span>200 courses</span>
-                                        </li>
-                                        <li className="reviews">
-                                            <span>300 reviews</span>
-                                        </li>
-                                        <li className="students">
-                                            <span>250 students</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="col-md-12 col-md-8">
-                                    <h6 className="spacing">About Me</h6>
-                                    <p>{dummText}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-0 col-lg-5"></div>
-                    </div>
-                </div>
-                <div className="col-md-12">
-                    <h6 className="spacing">Reviews about course</h6>
-                    <Review />
-                    <Review />
-                </div>
-                {/* <div className="col-md-12">
-          <div className="cards-group">
-            <h6 className="spacing">Similar Courses</h6>
-            <GeneralSlider />
-          </div>
-        </div> */}
-                {/* <div className="col-md-12">
-          <div className="cards-group">
-            <h6 className="spacing">Trending Courses</h6>
-            <GeneralSlider />
-          </div>
-        </div> */}
+                
             </div>
         </Fragment>
     );

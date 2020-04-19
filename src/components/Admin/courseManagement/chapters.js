@@ -22,8 +22,9 @@ const AddChapters = (props) => {
     };
 
 
-
-    let { title, topics, duration, topicsArray } = chapter
+    console.log(props.chapter);
+    
+    let { title , topics , duration , topicsArray } = chapter
 
     return (
         <Fragment>

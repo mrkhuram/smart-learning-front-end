@@ -477,4 +477,132 @@ p {
     font-size: 16px;
 
     }
-} 
+    
+  } 
+.student-question-outer{
+  display: flex;
+  margin-top: 30px;
+  ._width{
+    width: 100%;
+    display: flex;
+  }
+  .student-question-heading{
+    width: 70%;
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 1.6rem;  
+  }
+  .select-topic-in-question{
+    padding: 5px 10px 10px 10px;
+    width: 200px;
+    border-radius: 25px;
+    background-color: #dadada;
+    margin-top: 10px;
+    font-size: 15px;
+
+  }
+  .student-question-topic-text{
+    margin-top: -2px !important;
+    margin-right: 5px;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .total-question-asked-outer{
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+    .total-question{
+      width: 50%;
+      font-weight: 500;
+
+    }
+    .all-question, .replied-question, .un-replied-question{
+      margin: 0px 20px;
+    }
+    .question-number{
+      color: $primary;
+      font-weight: 500;
+    }
+    .question-number-all{
+      color: black;
+      font-weight: 500;
+
+    }
+    .question-number-unReplied{
+      color: red;
+      font-weight: 500;
+    }
+  }
+}
+.question-outer{
+  // height: 150px;
+  .basic-details-outer{
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .user-image-asked-question{
+    padding: 15px 20px;
+    border: 1px solid grey;
+    border-radius: 50%;
+    color: red;
+    font-weight: 500;
+    margin-top: 10px;
+
+  }
+  .display-name-asked-question{
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+    position: absolute;
+    top: 5px;
+    left: 65px;
+  }
+  .day-asked-question{
+   position: absolute;
+   top: 25px;
+   left: 75px;
+   color: #cccccc;
+   font-size: 14px;
+  }
+  .actual-question{
+    margin-top: 10px !important;
+  }
+}
+.reply-button{
+      border: none;
+      background-color: white;
+      color: #cccccc;
+      margin-left: 40px;
+      .reply-icon{
+        margin-right: 10px;
+        color: $primary;
+        font-size: 14px;
+      }
+      .reply-question::placeholder{
+        font-style: italic !important;
+      }
+}
+.reply-done-button{
+  text-align: right;
+  margin-right: 20px;
+  margin-top: 10px !important;
+  .cancel-reply{
+    margin-right: 10px;
+    background-color: grey;
+  }
+  .done-reply{
+    background-color: #33aa58;
+  }
+  .cancel-reply,.done-reply{
+    border: none;
+    font-size: 14px;
+    // width: 70px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: white;
+  }
+}
+.qustions-container-outer{
+  margin-bottom: 20px;
+}
