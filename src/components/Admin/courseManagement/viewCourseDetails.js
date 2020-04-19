@@ -12,6 +12,8 @@ import video from "../../CourseDetail/video.mkv";
 import './viewCourse.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
+import AddChapters from './chapters'
+
 
 const dummText =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras vitae auctor ex, eu pulvinar risus. Donec finibus turpis eget quam finibus facilisis. Vivamus id augue neque. Duis luctus augue eu diam ullamcorper dictum. Cras vestibulum congue dui sit amet congue. Etiam et elit a metus varius congue. Nunc mattis nisi sed eros posuere, vel vestibulum ipsum congue. Nullam pretium lacus vitae diam cursus vehicula. Nulla tempor nec lorem et dictum.";
@@ -355,6 +357,37 @@ let courses = [
     }
 ];
 
+const chapter = [
+    {
+        title: "Introduction to Super Computers",
+        topics: '5 Topics',
+        duration: '2 Hours 52 minutes',
+        topicsArray: [
+            {
+                topicName: "How computer changes our life's?"
+            },
+            {
+                topicName: "How computer changes our life's?"
+            },
+        ]
+    },
+    {
+        title: "Hardware's of the computers",
+        topics: '2 Topics',
+        duration: '2 Hours 52 minutes',
+        topicsArray: [
+            {
+                topicName: "How computer changes our life's?"
+            },
+            {
+                topicName: "How computer changes our life's?"
+            },
+        ]
+    },
+]
+
+
+
 
 const ViewCourseDetails = props => {
     let arr = [1, 2, 3, 4, 5];
@@ -415,7 +448,7 @@ const ViewCourseDetails = props => {
 
                     <div className="col-12 video-container-col">
                         <div className="row video-container">
-                            <div className="col-12 col-md-6 bg-primary video p-0">
+                            <div className="col-6 col-md-6 bg-primary video p-0">
                                 <video poster={videoPoster} loop autoPlay muted controls style={{ height: "100%" }}>
                                     <source src={video} type="video/mp4" />
                                 </video>
@@ -435,20 +468,25 @@ const ViewCourseDetails = props => {
                 <div className="col-md-12">
                     <div className="row description-row">
                         <div className="col-md-12  col-lg-8">
-                            <h6 className="spacing">Description</h6>
+                            <h4 className="spacing desc-text">Description</h4>
                             <p>{dummText}</p>
-                            <h6 className="spacing">What you'll learn in this course?</h6>
-                            <div className="course-topic-box">
-                                <div className="row">
-                                    {arr.map(v => {
-                                        return (
-                                            <div key={v} className="col-md-12 col-md-6 course-topic">
-                                                Understand the theory of biology
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                            <div className="rating">
+                                <Rating className="star" value={5} readOnly />
+                                <span className="students">Based on 200 students</span>
                             </div>
+
+                            <p className="spacing add-chapter-heading">Add Chapter in your course</p>
+                            <h5 className="spacing course-title">introduction to computing</h5>
+
+                            <div className="course-chapter-box">
+
+                                {
+                                    chapter.map((item, index) => {
+                                        return <AddChapters chapter={item} />
+                                    })
+                                }
+                            </div>
+
                             <h6 className="spacing">Requirements</h6>
                             <div className="course-topic-box">
                                 <div className="row">
@@ -470,12 +508,12 @@ const ViewCourseDetails = props => {
 
                                         Edit
 
-                                </div>
+                                    </div>
 
 
 
                                 <div className="not-editable">
-                                    Sorry You cannot edit
+                                    Sorry you cannot edit
                                 <p className="contact-admin">
                                         Please contact to admin
                                 </p>

@@ -1,5 +1,19 @@
 @import "../../../assets//scss//constants";
-
+.primary-color{
+  color: $primary;
+}
+.save{
+  background-color: #33aa58;
+}
+.edit{
+  background-color: #2496f3;
+}
+.delete{
+  background-color: #df3333;
+}
+.hidden{
+  display: none;
+}
 .heading {
   display: flex;
   align-items: center;
@@ -55,6 +69,19 @@ p {
 .spacing {
   margin: 12px 0px;
 }
+.desc-text{
+  font-weight: bold;
+
+}
+.rating{
+  margin-top: 10px;
+  .students{
+    font-style: italic;
+    margin-left: 5px;
+    font-size: 12px;
+    color: #808080;
+  }
+}
 .video-container-col {
   display: flex;
   align-items: center;
@@ -94,23 +121,7 @@ p {
     background: gray;
   }
 }
-.course-topic-box {
-  padding: 15px;
-  margin-left: 5px;
-  box-shadow: 0 0 5px 2px gray;
-}
-.course-topic {
-  &::before {
-    content: "\A";
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: $primary;
-    margin-right: 10px;
-    margin-bottom: 2px;
-    display: inline-block;
-  }
-}
+
 .about {
   padding-left: 35px;
   .avatar-cntnr {
@@ -191,18 +202,6 @@ p {
       font-size: 0.6rem;
     }
   }
-  .course-topic-box {
-    padding: 7px;
-    margin-left: 0px;
-    .row {
-      .course-topic {
-        &::before {
-          height: 7px;
-          width: 7px;
-        }
-      }
-    }
-  }
   .video-container-col {
     padding: 0px;
     .video-container {
@@ -220,6 +219,7 @@ p {
   .description-row {
     display: flex;
     flex-direction: column-reverse;
+    
   }
 
   .about {
@@ -296,6 +296,7 @@ p {
         display: inline-block;
         margin-left: 5px;
         color: grey;
+        text-transform: uppercase;
     }
     .contact-admin{
         font-size: 12px;
@@ -309,10 +310,171 @@ p {
         position: absolute;
         right: 0px;
         margin-top: 10px;
+        color: $primary;
+        text-transform: uppercase;
+
     }
     .not-editable{
         position: absolute;
         right: 70px;
         top: 40px;
+        // border: 1px solid black;
+        padding: 10px 20px;
+        height: 60px;
+        width: 200px;
+        font-size: 15px;
+        text-align: center;
+        box-shadow: 0px 0px 2px black;
+        border-radius: 5px;
+        .contact-admin{
+         font-size: 12px;
+         color: $primary;
+        }
     }
 }
+.add-chapter-heading{
+  text-transform: capitalize;
+  // margin-bottom: 50px;
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+.course-title{
+  text-transform: capitalize;
+  color: $primary;
+  position: relative;
+  top: -10px;
+  font-size: 16px;
+  font-weight: 500 !important;
+}
+
+
+
+
+.course-chapter-box {
+
+  box-shadow: 0 0 5px 2px gray;
+
+
+
+  .course-details-view-course{
+    display: flex;
+    flex: 1;
+    border-bottom: 2px solid #d8d4d4 !important;
+    border-top: 2px solid #d8d4d4 !important;
+    // margin-top: 10px; 
+    padding: 0px 10px;
+    // padding-top: 10px;
+    align-items: center;
+    cursor: default;
+  
+    .title-course {
+      height: 40px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+    }
+
+    .title-course {
+      &::before {
+        content: "\A";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $primary;
+        margin-right: 10px;
+        margin-bottom: 2px;
+        display: inline-block;
+      }
+    }
+    .chapter-topics,.chapter-duration{
+      font-size: 14px;
+      font-weight: 500;
+
+    }
+    .xpand{
+      font-weight: bold;
+    }
+  }
+  .more-topic-outer{
+    margin-bottom: 20px;
+    padding-top: 10px;
+    display: flex;
+    transition:all 500ms ease-in-out;
+  }
+  .topic-text{
+    font-weight: 500;
+    margin-right: 10px;
+    position: relative;
+    left: -10px;
+  }
+  .lecture-title-outer{
+    background-color: #f5fbf6;
+    padding: 10px;
+  }
+  .bg-color{
+    background-color: #f5fbf6;
+
+  }
+  .on-expend{
+    color: black;
+  }
+  .button-outer{
+    display: flex;
+    margin-bottom: 20px;
+    .button-container,.button-container-2{
+      
+    align-items: right;
+    box-shadow: 2px 3px 5px black;
+    border-radius: 25px;
+    padding: 3px 10px 0px 10px;
+    .cloud-icon{
+      margin-right: 5px;
+      font-size: 12px;
+      color: #a7a7a7;
+    }
+    .upload-text{
+      font-size: 12px;
+    }
+  }
+  .button-container-2{
+    margin-left: 30px;
+  }
+  .action-save, .action-edit , .action-delete{
+    width: 70px;
+    padding: 3px 5px; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-left: 10px;
+  }
+  .action-buttons{
+    position: absolute;
+    right: 15px
+
+  }
+}
+}
+.nopad{
+  padding: 0 !important;
+}
+.add-chapter-outer{
+  padding: 7px;
+  border: 1px solid #ccc; 
+  .add-chapter{
+    width: 100%;
+    padding: 10px;
+    background-color: #f5fbf6;
+    border: none;
+    color: black !important;
+  }
+  .plus-icon{
+    position: absolute;
+    right: 30px;
+    margin-top: 12px;
+    color: $primary;
+    font-size: 16px;
+
+    }
+} 
