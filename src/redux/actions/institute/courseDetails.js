@@ -2,6 +2,7 @@ import axios from 'axios'
 import {baseURL} from "../../config/config"
 import {
     COURSE_ADDED,
+    ALL_COURSES,
     ERROR
 } from '../../constants'
 
@@ -32,6 +33,33 @@ export const addNewCourse = (body,user)=>{
             if(resp){
                 dispatch({
                     type: COURSE_ADDED,
+                    payload: {resp: resp.data.data, type: user}
+                })
+            }    
+        })
+        .catch(err => {
+            dispatch({
+                type: ERROR,
+                payload: err
+            })
+        })
+
+    }
+}
+
+
+export const getAllCourse = (body,user)=>{
+    return dispatch =>{
+
+        // body = {"institute_id": "5e9d4a5eab438002fc7d97df"} for demo 
+        
+        axios.post(baseURL + '/api/'+ user +'/course/get_all',body)
+        .then(resp => {
+            // console.log(resp);
+            
+            if(resp){
+                dispatch({
+                    type: ALL_COURSES,
                     payload: {resp: resp.data.data, type: user}
                 })
             }    

@@ -10,7 +10,7 @@ export const OfferService = "/admin/offer-service";
 export const RegisterAsInstitute = "/admin/set-profile";
 export const CourseManagement = "/admin/course_management";
 export const AddNewCourse = "/admin/course_management/new";
-export const ViewCourseDetails = "/admin/course_management/view";
+export const ViewCourseDetails = "/admin/course_management/view/:id";
 
 
 

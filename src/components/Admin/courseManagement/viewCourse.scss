@@ -155,79 +155,6 @@ p {
 }
 
 
-/// RESPONSIVENESS
-@media (max-width: 991px) {
-  .col-12 {
-    padding: 2px;
-  }
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 2px;
-    h3 {
-      margin: 0px;
-      font-size: 1.2rem;
-    }
-    .rating {
-      margin: 0px;
-      align-self: stretch;
-      display: flex;
-      .star {
-        margin-right: 15px;
-        font-size: 14px !important;
-      }
-      .students {
-        font-size: 10px;
-      }
-    }
-  }
-  .subheading-col {
-    flex-direction: column;
-    margin-bottom: 0px;
-    .subheading {
-      font-size: 0.9rem;
-      margin-right: 0px;
-      margin-bottom: 2px;
-    }
-    p {
-      .last-updated {
-        font-size: 0.75rem;
-      }
-      .updated-date {
-        font-size: 0.85rem;
-      }
-    }
-    .institute-btn {
-      font-size: 0.6rem;
-    }
-  }
-  .video-container-col {
-    padding: 0px;
-    .video-container {
-      height: fit-content;
-      background-color: #373737;
-      .video {
-        height: 90vw !important;
-        max-height: 500px;
-      }
-      .courses-list {
-        height: 311px;
-      }
-    }
-  }
-  .description-row {
-    display: flex;
-    flex-direction: column-reverse;
-    
-  }
-
-  .about {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-}
 .manage_width{
    width: 90%;
 }
@@ -332,6 +259,9 @@ p {
         }
     }
 }
+
+
+
 .add-chapter-heading{
   text-transform: capitalize;
   // margin-bottom: 50px;
@@ -574,6 +504,8 @@ p {
       background-color: white;
       color: #cccccc;
       margin-left: 40px;
+      outline: none;
+      // width: 100%;
       .reply-icon{
         margin-right: 10px;
         color: $primary;
@@ -581,6 +513,9 @@ p {
       }
       .reply-question::placeholder{
         font-style: italic !important;
+      }
+      :active{
+        outline: none;  
       }
 }
 .reply-done-button{
@@ -605,4 +540,80 @@ p {
 }
 .qustions-container-outer{
   margin-bottom: 20px;
+}
+
+
+
+/// RESPONSIVENESS
+@media (max-width: 991px) {
+  .col-12 {
+    padding: 2px !important;
+  }
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 2px;
+    h3 {
+      margin: 0px;
+      font-size: 1.2rem;
+    }
+    .rating {
+      margin: 0px;
+      align-self: stretch;
+      display: flex;
+      .star {
+        margin-right: 15px;
+        font-size: 14px !important;
+      }
+      .students {
+        font-size: 10px;
+      }
+    }
+  }
+  .subheading-col {
+    flex-direction: column;
+    margin-bottom: 0px;
+    .subheading {
+      font-size: 0.9rem;
+      margin-right: 0px;
+      margin-bottom: 2px;
+    }
+    p {
+      .last-updated {
+        font-size: 0.75rem;
+      }
+      .updated-date {
+        font-size: 0.85rem;
+      }
+    }
+    .institute-btn {
+      font-size: 0.6rem;
+    }
+  }
+  .video-container-col {
+    padding: 0px;
+    .video-container {
+      height: fit-content;
+      background-color: #373737;
+      .video {
+        height: 90vw !important;
+        max-height: 500px;
+      }
+      .courses-list {
+        height: 311px;
+      }
+    }
+  }
+  .description-row {
+    display: flex;
+    flex-direction: column-reverse;
+    
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

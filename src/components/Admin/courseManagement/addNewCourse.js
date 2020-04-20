@@ -4,7 +4,7 @@ import "./_addCourse.scss";
 import Modal from "react-modal";
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
-import { addNewCourse } from '../../../redux/actions/institute/addCourseAction'
+import { addNewCourse } from '../../../redux/actions/institute/courseDetails'
 
 
 

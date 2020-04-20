@@ -18,9 +18,9 @@ const QuestionAsked = (props) => {
     const [expanded, setExpanded] = useState(false);
     const handleExpansion = expanded => {
         setExpanded(!expanded);
-    };
+        console.log("working");
 
-    console.log(ques);
+    };
 
 
     let { display_image, name, time, question } = ques
@@ -56,23 +56,28 @@ const QuestionAsked = (props) => {
 
                                     <input type="text" className="add-chapter reply-question" placeholder="Type answer here" />
                                     <div className="reply-done-button">
-                                        <button className="cancel-reply">
+                                        <button className="cancel-reply"
+
+                                            onClick={() => handleExpansion(expanded)}>
                                             Cancel
                                     </button>
-                                        <button className="done-reply">
+                                        <button className="done-reply"
+                                            onClick={() => handleExpansion(expanded)}
+                                        >
                                             Reply
 
-                                    </button>
+                                        </button>
                                     </div>
                                 </Fragment>
                                 :
-                                <button className="reply-button" onClick={() => handleExpansion(expanded)}>
+                                <button className="reply-button" onClick={() => handleExpansion(expanded)}
+
+                                >
                                     <FontAwesomeIcon icon={faReply} className="reply-icon" />
                                                         Reply
-                        </button>
+                                </button>
                         }
 
-                        {/* <input type="text" className="add-chapter" placeholder="Add Chapter" /> */}
 
                     </div>
                 </div>
@@ -80,47 +85,7 @@ const QuestionAsked = (props) => {
 
 
             </div>
-            {/* <div className="row">
-                <div className="question-outer">
-                    <div className="col-12 basic-details-outer">
-                        <p className="user-image-asked-question">U</p>
-                        <p className="display-name-asked-question">Umer Ahmad</p>
-                        <p className="day-asked-question">5 days ago</p>
-                    </div>
-                    <div className="col-12">
-                        <p className="actual-question">
-                            After the course, it's all about us to use what we learn love the courses made it by chad
-                                <br />
-                             Please ans me as soon as possible.
-                        </p>
-                    </div>
 
-                </div>
-                <div className="col-12 nopad">
-
-                    <div className="add-chapter-outer">
-
-                        <button className="reply-button">
-                                                        <FontAwesomeIcon icon={faReply} className="reply-icon"/>
-                                                        Reply
-                                                    </button>
-
-                        <input type="text" className="add-chapter reply-question" placeholder="Type answer here" />
-                        <div className="reply-done-button">
-                            <button className="cancel-reply">
-                                Cancel
-                        </button>
-                            <button className="done-reply">
-                                Reply
-
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div> */}
 
         </div>
     );

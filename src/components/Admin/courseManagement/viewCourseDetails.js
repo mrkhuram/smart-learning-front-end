@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 // import "../../CourseDetail/scss/_detail.scss";
 import TopNavBAr from "../../Common/TopNavBar";
 import Rating from "@material-ui/lab/Rating";
@@ -14,8 +14,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
 import AddChapters from './chapters'
 import QuestionAsked from './questions'
-import { faReply } from "@fortawesome/free-solid-svg-icons";
-
+import { faReply, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import {getAllChapter}  from '../../../redux/actions/institute/chapterDetails'
 
 
 const dummText =
@@ -360,7 +362,7 @@ let courses = [
     }
 ];
 
-const chapter = [
+const chapterArry = [
     {
         title: "Introduction to Super Computers",
         topics: '5 Topics',
@@ -419,6 +421,65 @@ const questions = [
 
 
 const ViewCourseDetails = props => {
+    const {getChapters,chapterRedu} = props
+    const [state, setState] = useState({
+        name: null,
+        video: null,
+        file: null,
+        parent: null
+    })
+    const [chapter, setChapter] = useState({
+    allChapter: null
+    })
+    const details = props.location.query    
+
+    const onChangeHandler = (e) => {
+
+        let name = e.target.name
+        let val = e.target.value
+        let att = e.target.getAttribute('data-topic')
+        if (att) {
+            setState({
+                ...state,
+                [name]: val,
+                // parent: 
+            })
+            return true
+        }
+
+        setState({
+            ...state,
+            [name]: val
+        })
+        console.log(state);
+        
+    }
+    const newObj = {
+        course_id: details._id,
+        provider_id: chapterRedu.institute_id
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            if(!chapterRedu.allChapter){
+                getChapters(newObj,'institute')
+                setChapter({
+                    ...chapter,
+                    chapter: chapterRedu.allChapter
+                })
+            }
+            
+        }, 2000);
+    })
+
+    const submit = ()=>{
+        console.log(chapter);
+        
+        console.log(state);
+        
+    }
+
+
     let arr = [1, 2, 3, 4, 5];
     return (
 
@@ -445,7 +506,7 @@ const ViewCourseDetails = props => {
                 <div className="video-section">
 
                     <div className="col-12 heading">
-                        <h3 className="heading">Introduction to Microbiology</h3>
+                        <h3 className="heading">{details ? details.english_tittle : "Introduction to something"}</h3>
 
                         <div className="error-box-edit">
                             <div className="not-editable">
@@ -464,7 +525,7 @@ const ViewCourseDetails = props => {
                     </div>
                     <div className="col-12 subheading-col d-flex">
                         <h6 className="subheading">
-                            Very Informative Course For FSc Level Students
+                            {details ? details.english_description.slice(0,10) : " Very Informative Course For FSc Level Students"}
                         </h6>
                         <p>
                             <span className="last-updated">Last updated : </span>
@@ -477,8 +538,8 @@ const ViewCourseDetails = props => {
 
                     <div className="col-12 video-container-col">
                         <div className="row video-container">
-                            <div className="col-6 col-md-6 bg-primary video p-0">
-                                <video poster={videoPoster} loop autoPlay muted controls style={{ height: "100%" }}>
+                            <div className="col-6 col-md-6 video p-0">
+                                <video poster={videoPoster} loop autoPlay muted controls style={{ height: "100%", width: "100%" }}>
                                     <source src={video} type="video/mp4" />
                                 </video>
                             </div>
@@ -496,7 +557,7 @@ const ViewCourseDetails = props => {
 
                 <div className="col-md-12">
                     <div className="row description-row">
-                        <div className="col-md-12  col-lg-8">
+                        <div className="col-md-12  col-lg-8 col-12">
                             <h4 className="spacing desc-text">Description</h4>
                             <p>{dummText}</p>
                             <div className="rating">
@@ -510,10 +571,18 @@ const ViewCourseDetails = props => {
                             <div className="course-chapter-box">
 
                                 {
-                                    chapter.map((item, index) => {
-                                        return <AddChapters chapter={item} />
+                                    chapterArry.map((item, index) => {
+                                        return <AddChapters chapter={item} onChangeHandler={onChangeHandler} submitHandler={submit} />
                                     })
                                 }
+                                <div className="col-12 nopad">
+
+                                    <div className="add-chapter-outer">
+
+                                        <input type="text" className="add-chapter" placeholder="Add Chapter" name="name" onChange={onChangeHandler} />
+                                        <FontAwesomeIcon icon={faPlusCircle} className="plus-icon" />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="student-question-outer row">
@@ -544,13 +613,13 @@ const ViewCourseDetails = props => {
                                 </div>
 
                                 {
-                                    questions.map((item,index)=>{
-                                        return <QuestionAsked ques={item}/> 
+                                    questions.map((item, index) => {
+                                        return <QuestionAsked ques={item} />
                                     })
                                 }
                             </div>
                         </div>
-                        <div className="col-md-12 col-lg-4 description-section">
+                        <div className="col-md-12 col-lg-4 description-section col-12">
                             <div className="error-box-edit">
                                 <div className="icon-text">
 
@@ -574,10 +643,26 @@ const ViewCourseDetails = props => {
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </Fragment>
     );
 };
 
-export default ViewCourseDetails;
+
+let mapStateToProps = store => {
+
+    return {
+        chapterRedu: store.ChapterReducer
+    }
+}
+let mapDispatchToProps = dispatch => {
+    return {
+        getChapters: (state,user)=>{
+            dispatch(getAllChapter(state,user))
+        }
+    }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewCourseDetails));

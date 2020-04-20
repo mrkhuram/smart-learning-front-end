@@ -1,25 +1,19 @@
 import React, { useState } from "react";
 import "./_course_mangement.scss";
-import Stepper from "react-stepper-horizontal";
-import Select from "../../Common/Select";
-import CustomUploadFile from "../common/CustomUploadFile.js/CustomUploadFile";
+
 import OfferCourseTable from "./OfferCourseTable";
-import AdminModal from "../common/AdminModal/AdminModal";
 import { updateProfileInstructor } from '../../../redux/actions/instructor/profileUpdate'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import StarIcon from '@material-ui/icons/Star';
 import Rating from "@material-ui/lab/Rating";
 import { Link } from 'react-router-dom'
 import * as routes from '../../../constants/routePaths'
-
+import {getAllCourse} from '../../../redux/actions/institute/courseDetails'
 
 
 const CourseManagement = props => {
-  const { setNewProfile } = props
-
-
+  const { getCourses,userDetail } = props
 
   const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,17 +30,17 @@ const CourseManagement = props => {
     other: null,
     otp: null
   })
+  const [courses, setCourses] = useState({
+    all: null
+  });
 
 
+  React.useEffect(()=>{
+    if(!userDetail.allCourses){
+      getCourses({institute_id: userDetail.institute_id },"institute")
+    }
+  })
 
-  const handleNext = () => {
-    return setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-  const closeModal = () => setModalOpen(false);
 
   const array = [
     "",
@@ -126,7 +120,7 @@ const CourseManagement = props => {
       </div>
 
       <div className="row">
-        <OfferCourseTable headings={array} data={dataArray} />
+        <OfferCourseTable headings={array} data={courses.all} />
       </div>
 
     </div>
@@ -137,13 +131,13 @@ const CourseManagement = props => {
 let mapStateToProps = store => {
 
   return {
-    userDetail: store.auth.userDetail
+    userDetail: store.CourseReducer
   }
 }
 let mapDispatchToProps = dispatch => {
   return {
-    setNewProfile: (state, user) => {
-      dispatch(updateProfileInstructor(state, user))
+    getCourses: (state, user) => {
+      dispatch(getAllCourse(state, user))
     }
   }
 }

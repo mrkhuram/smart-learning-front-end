@@ -1,16 +1,19 @@
 import {
 
     COURSE_ADDED,
-    ERROR
+    ERROR,
+    ALL_COURSES
 } from '../../constants'
 import history from '../../../components/Common/history'
 import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
+    institute_id: "5e9d4a5eab438002fc7d97df", // temporarily
     userDetail: null,
     msg: null,
-    err: null
+    err: null,
+    allCourses: null
 }
 
 export default function (state = initState, action) {
@@ -26,29 +29,21 @@ export default function (state = initState, action) {
 
         case ERROR:
             console.log(action.payload);
-            
+
             newState.err = action.payload
 
             break;
 
 
 
-        // case LOGIN:
+        case ALL_COURSES:
+            console.log(action.payload.resp);
 
-        //     console.log(action.payload.resp);
 
-        //     newState.userDetail = action.payload.resp
-        //     setTimeout(() => {
-        //         if (action.payload.type === "institute") {
-        //             history.push(routes.RegisterAsInstitute)
-        //         }
-        //         if (action.payload.type === "instructor") {
-        //             history.push(routes.OfferCourse)
-        //         }
+            newState.allCourses = action.payload.resp.course
 
-        //     });
 
-        //     break;
+            break;
 
         // case PROFILE:
 
