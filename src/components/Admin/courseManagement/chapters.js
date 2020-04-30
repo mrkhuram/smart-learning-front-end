@@ -20,8 +20,9 @@ const AddChapters = (props) => {
     const handleExpansion = expanded => {
         setExpanded(!expanded);
     };
-
-    let { title, topics, duration, topicsArray } = chapter
+    console.log(chapter);
+    
+    let { english_name, topics, duration } = chapter
 
     return (
         <Fragment>
@@ -45,11 +46,11 @@ const AddChapters = (props) => {
                                 "col-md-6 title-course primary-color"
                         }
                     >
-                        {title}
+                        {english_name}
                     </div>
                     <div className="col-md-2 chapter-topics">
                         {
-                            topics
+                            // topics
                         }
                     </div>
                     <div className="col-md-3 chapter-duration">
@@ -73,7 +74,7 @@ const AddChapters = (props) => {
                     expanded === true
                         // true
                         ?
-                        topicsArray.map(({ topicName }, i) => (
+                        topics.map(({ english_name }, i) => (
                             <Fragment key={i} >
                                 <div className="more-topic-outer col-12">
 
@@ -82,7 +83,7 @@ const AddChapters = (props) => {
                                     </div>
                                     <div className="col-11 lecture-title-outer">
                                         <span className="lecture-title">
-                                            {topicName}
+                                            {english_name}
                                         </span>
 
                                     </div>

@@ -53,11 +53,12 @@ export const getAllChapter = (body,user)=>{
 
         // body = {"institute_id": "5e9d4a5eab438002fc7d97df"} for demo 
         
-        axios.post(baseURL + '/api/'+ user +'/chapter/getmany',body)
+        axios.post(baseURL + '/api/'+ user +'/chapter/getmany',body) 
         .then(resp => {
             console.log(resp);
             
             if(resp){
+                
                 dispatch({
                     type: ALL_CHAPTER,
                     payload: {resp: resp.data.data, type: user}

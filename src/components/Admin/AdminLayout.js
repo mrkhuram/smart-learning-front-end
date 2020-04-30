@@ -37,7 +37,7 @@ const AdminLayout = ({ match }) => {
             <Link to={routes.RegisterAsInstitute} id="user" onClick={() => setFocused("user")}>
               <img src={user} alt="user" title="user" />
             </Link>
-          </li>
+          </li> 
           <li>
             <Link to={routes.CourseManagement} id="plus" onClick={() => setFocused("plus")}>
               <img src={plusCircle} alt="plus" />
@@ -55,6 +55,8 @@ const AdminLayout = ({ match }) => {
         </ul>
         <Switch>
           <Route exact path={routes.CourseManagement} component={CourseManagement} />
+          <Route exact path={routes.OfferCourse} component={OfferCoursePage} />
+
           <Route
             exact
             path={routes.OfferService}

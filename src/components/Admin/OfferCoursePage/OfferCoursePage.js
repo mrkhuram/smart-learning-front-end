@@ -7,14 +7,14 @@ import OfferCourseTable from "./OfferCourseTable";
 import AdminModal from "../common/AdminModal/AdminModal";
 import { updateProfileInstructor } from '../../../redux/actions/instructor/profileUpdate'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'; 
 
 
 
 const OfferCoursePage = props => {
   const { setNewProfile } = props
 
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(2);
   const [modalOpen, setModalOpen] = useState(false);
   const [state, setState] = useState({
     institute: null,
@@ -131,9 +131,9 @@ const OfferCoursePage = props => {
             activeStep={activeStep}
           />
         </div>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" >
 
-          <div className="col-12 col-md-7 p-0">
+          <div className="col-12 col-md-8" >
             {activeStep === 1 && (
               <div className="row">
                 <div className="col-12 dropdown-div offer-course-select-div">
@@ -337,7 +337,7 @@ const OfferCoursePage = props => {
                   Get Code
                 </button>
               )}
-          </div>
+          </div> 
           {activeStep === 2 && (
             <div className="col-12 col-md-7 p-0 text-right">
               <span onClick={handleNext} className="skip-offercourse-step">

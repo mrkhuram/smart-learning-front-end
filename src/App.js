@@ -26,7 +26,7 @@ const App = (props) => {
   
 
 
-  return ( 
+  return (  
     <Router history={history}> 
       <Switch>
         <Route exact path={routes.Home} component={HomePage} />

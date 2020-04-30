@@ -168,9 +168,9 @@ const OfferCourseTable = ({ headings, data, courses }) => {
                       onClick={handleProfileMenuOpen}
                       
                       color="inherit"
-                    >
-                      <MoreVertIcon onClick = {()=>{
-                        setId({
+                    > 
+                      <MoreVertIcon onMouseOver = {()=>{
+                        setId({ 
                           oneUser: d
                         })
                       }}/>
@@ -178,7 +178,10 @@ const OfferCourseTable = ({ headings, data, courses }) => {
                   </td>
                 </tr>
               ))
-              : ""
+              : 
+              <div className="nothing_to_show">
+                <h4>Nothing to Show</h4>
+              </div>
           }
           {renderMenu}
         </tbody>

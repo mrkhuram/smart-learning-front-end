@@ -13,7 +13,7 @@ let initState = {
     userDetail: null,
     msg: null,
     err: null,
-    allCourses: null
+    allCourses: []
 }
 
 export default function (state = initState, action) {

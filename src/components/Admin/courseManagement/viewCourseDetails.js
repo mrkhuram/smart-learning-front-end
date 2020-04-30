@@ -17,13 +17,14 @@ import QuestionAsked from './questions'
 import { faReply, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {getAllChapter}  from '../../../redux/actions/institute/chapterDetails'
+import { getAllChapter } from '../../../redux/actions/institute/chapterDetails'
+import { getAllCourse } from '../../../redux/actions/institute/courseDetails'
 
 
 const dummText =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras vitae auctor ex, eu pulvinar risus. Donec finibus turpis eget quam finibus facilisis. Vivamus id augue neque. Duis luctus augue eu diam ullamcorper dictum. Cras vestibulum congue dui sit amet congue. Etiam et elit a metus varius congue. Nunc mattis nisi sed eros posuere, vel vestibulum ipsum congue. Nullam pretium lacus vitae diam cursus vehicula. Nulla tempor nec lorem et dictum.";
 
-let courses = [
+let oldCourses = [
     {
         title: "Introduction to Programming",
         intro: "",
@@ -421,17 +422,28 @@ const questions = [
 
 
 const ViewCourseDetails = props => {
-    const {getChapters,chapterRedu} = props
+    const { getChapters, chapterRedu, newCourses,getCourses } = props
     const [state, setState] = useState({
         name: null,
         video: null,
         file: null,
         parent: null
     })
-    const [chapter, setChapter] = useState({
-    allChapter: null
+
+    const [course, setCourse] = useState({
+        courses: []
     })
-    const details = props.location.query    
+    const [chapter, setChapter] = useState({
+        allChapter: null
+    })
+    const details = props.location.query
+
+    useEffect(() => {
+
+
+    }, [])
+
+
 
     const onChangeHandler = (e) => {
 
@@ -452,33 +464,43 @@ const ViewCourseDetails = props => {
             [name]: val
         })
         console.log(state);
-        
+
     }
+    console.log(chapterRedu);
+    console.log(newCourses);
+
     const newObj = {
-        course_id: details._id,
+        course_id: props.match.params.id,
         provider_id: chapterRedu.institute_id
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            if(!chapterRedu.allChapter){
-                getChapters(newObj,'institute')
-                setChapter({
-                    ...chapter,
-                    chapter: chapterRedu.allChapter
-                })
-            }
-            
-        }, 2000);
-    })
+        // if(!userDetail.allCourses){
+            getCourses({institute_id: chapterRedu.institute_id },"institute")
+        //   }
 
-    const submit = ()=>{
-        console.log(chapter);
-        
-        console.log(state);
+        setTimeout(() => {
+            if (!chapterRedu.allChapter) {
+                getChapters(newObj, 'institute')
+            }
+
+        }, 2000); 
+
+    },[])
+
+    useEffect(()=>{
+        console.log(newCourses);
+        setCourse({
+            courses: newCourses 
+        })
+
+    }, []) 
+
+    const submit = () => {
+        console.log(chapterRedu.allChapter);
         
     }
-
+    
 
     let arr = [1, 2, 3, 4, 5];
     return (
@@ -525,7 +547,7 @@ const ViewCourseDetails = props => {
                     </div>
                     <div className="col-12 subheading-col d-flex">
                         <h6 className="subheading">
-                            {details ? details.english_description.slice(0,10) : " Very Informative Course For FSc Level Students"}
+                            {false ? details.english_description.slice(0, 10) : " Very Informative Course For FSc Level Students"}
                         </h6>
                         <p>
                             <span className="last-updated">Last updated : </span>
@@ -544,11 +566,15 @@ const ViewCourseDetails = props => {
                                 </video>
                             </div>
                             <div className="col-12 col-md-6 courses-list">
-                                {courses.map((course, i) => (
+                                {
+                               oldCourses.length > 0 ? 
+                               oldCourses.map((course, i) => (
                                     <div key={i}>
-                                        <CourseItem course={course} />
+                                        <CourseItem course={course} />  
                                     </div>
-                                ))}
+                                ))
+                                : ""
+                                }
                             </div>
                         </div>
                     </div>
@@ -571,9 +597,15 @@ const ViewCourseDetails = props => {
                             <div className="course-chapter-box">
 
                                 {
-                                    chapterArry.map((item, index) => {
-                                        return <AddChapters chapter={item} onChangeHandler={onChangeHandler} submitHandler={submit} />
-                                    })
+                                    chapterRedu.allChapter
+                                        ?
+                                        chapterRedu.allChapter.map((item, index) => {
+                                            return <AddChapters
+                                                chapter={item} 
+                                                onChangeHandler={onChangeHandler}
+                                                submitHandler={submit} />
+                                        }) 
+                                        : ""
                                 }
                                 <div className="col-12 nopad">
 
@@ -651,16 +683,23 @@ const ViewCourseDetails = props => {
 
 
 let mapStateToProps = store => {
+    console.log(store.ChapterReducer);
+    
 
     return {
-        chapterRedu: store.ChapterReducer
+        chapterRedu: store.ChapterReducer,
+        newCourses: store.CourseReducer.allCourses,
+        
     }
 }
 let mapDispatchToProps = dispatch => {
     return {
-        getChapters: (state,user)=>{
-            dispatch(getAllChapter(state,user))
-        }
+        getCourses: (state, user) => {
+            dispatch(getAllCourse(state, user))
+        },
+        getChapters: (state, user) => {
+            dispatch(getAllChapter(state, user))
+        } 
     }
 }
 

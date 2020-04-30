@@ -4,7 +4,7 @@ import "./_course_mangement.scss";
 import OfferCourseTable from "./OfferCourseTable";
 import { updateProfileInstructor } from '../../../redux/actions/instructor/profileUpdate'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'; 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from "@material-ui/lab/Rating";
 import { Link } from 'react-router-dom'
@@ -27,7 +27,7 @@ const CourseManagement = props => {
     certification_file: null,
     about_us: null,
     job_title: null,
-    other: null,
+    other: null, 
     otp: null
   })
   const [courses, setCourses] = useState({
@@ -115,7 +115,7 @@ const CourseManagement = props => {
             <button className="add-course">
               add new course
           </button>
-          </Link>
+          </Link> 
         </div>
       </div>
 

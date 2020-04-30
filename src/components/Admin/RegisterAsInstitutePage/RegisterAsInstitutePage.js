@@ -79,7 +79,7 @@ const RegisterAsInstitutePage = props => {
   }
 
   const addFile = () => {
-    const cerfiticates_detail = [
+    const cerfiticates_detail = [ 
       {
         certificate_file: state.certificate_file,
         certificate_name: state.certificate_name
