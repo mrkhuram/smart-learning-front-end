@@ -3,9 +3,13 @@ import {baseURL} from "../../config/config"
 import {
     COURSE_ADDED,
     ALL_COURSES,
-    ERROR
+    ERROR,
+    ADD_NEW_CHAPTER,
+    ALL_CHAPTER
 } from '../../constants'
-
+import {getAllChapter} from './chapterDetailsAction'
+import {getCourses} from '../../../components/Admin/courseManagement/viewCourseDetails';
+import store from '../../store'
 
 
 export const addNewCourse = (body,user)=>{
@@ -26,14 +30,14 @@ export const addNewCourse = (body,user)=>{
             formData.append(item, body[item]);
 
         }
-        axios.post(baseURL + '/api/'+ user +'/course',formData, config)
+        axios.post(baseURL + '/api/institute/course',formData, config)
         .then(resp => {
             console.log(resp);
             
             if(resp){
                 dispatch({
                     type: COURSE_ADDED,
-                    payload: {resp: resp.data.data, type: user}
+                    payload: resp.data.data
                 })
             }    
         })
@@ -49,11 +53,12 @@ export const addNewCourse = (body,user)=>{
 
 
 export const getAllCourse = (body,user)=>{
+   
     return dispatch =>{
 
         // body = {"institute_id": "5e9d4a5eab438002fc7d97df"} for demo 
         
-        axios.post(baseURL + '/api/'+ user +'/course/get_all',body)
+        axios.post(baseURL + '/api/institute/course/get_all',body)
         .then(resp => {
             // console.log(resp);
             
@@ -62,7 +67,10 @@ export const getAllCourse = (body,user)=>{
                     type: ALL_COURSES,
                     payload: {resp: resp.data.data, type: user}
                 })
-            }    
+            }   
+            //  dispatch({
+            //     type: 
+            // })
         })
         .catch(err => {
             dispatch({
@@ -73,3 +81,38 @@ export const getAllCourse = (body,user)=>{
 
     }
 }
+
+
+export const addNewChapter = (body)=>{
+   
+    console.log(body);
+    
+    
+     return dispatch =>{
+ 
+         // body = {"institute_id": "5e9d4a5eab438002fc7d97df"} for demo 
+         
+         axios.post(baseURL + '/api/institute/chapter',body)
+         .then(resp => {
+             console.log(resp);
+             
+             if(resp){
+                 dispatch({
+                     type: ADD_NEW_CHAPTER,
+                     payload: resp.data.data.chapter
+                 })
+             }    
+         })
+         .then(()=>{
+             dispatch(getAllChapter())
+         })
+         .catch(err => {
+             dispatch({
+                 type: ERROR,
+                 payload: err
+             })
+         })
+ 
+     }
+ }
+ 

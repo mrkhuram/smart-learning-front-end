@@ -9,7 +9,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from "@material-ui/lab/Rating";
 import { Link } from 'react-router-dom'
 import * as routes from '../../../constants/routePaths'
-import {getAllCourse} from '../../../redux/actions/institute/courseDetails'
+import {getAllCourse} from '../../../redux/actions/institute/courseDetailsAction'
 
 
 const CourseManagement = props => {
@@ -36,10 +36,10 @@ const CourseManagement = props => {
 
 
   React.useEffect(()=>{
-    if(!userDetail.allCourses){
+    // if(!userDetail.allCourses){
       getCourses({institute_id: userDetail.institute_id },"institute")
-    }
-  })
+    // }
+  },[])
 
 
   const array = [
@@ -50,7 +50,7 @@ const CourseManagement = props => {
     "Discounts",
     ""
 
-  ]
+  ] 
   const dataArray = [
     {
       empty: '',

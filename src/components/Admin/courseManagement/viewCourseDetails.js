@@ -17,8 +17,8 @@ import QuestionAsked from './questions'
 import { faReply, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getAllChapter } from '../../../redux/actions/institute/chapterDetails'
-import { getAllCourse } from '../../../redux/actions/institute/courseDetails'
+import { getAllChapter, updateTopic } from '../../../redux/actions/institute/chapterDetailsAction'
+import { getAllCourse, addNewChapter } from '../../../redux/actions/institute/courseDetailsAction'
 
 
 const dummText =
@@ -422,9 +422,16 @@ const questions = [
 
 
 const ViewCourseDetails = props => {
-    const { getChapters, chapterRedu, newCourses,getCourses } = props
+    const {
+        getChapters,
+        chapterRedu,
+        newCourses,
+        getCourses,
+        addChapter,
+        updateOneTopic
+    } = props
     const [state, setState] = useState({
-        name: null,
+        english_name: null,
         video: null,
         file: null,
         parent: null
@@ -436,12 +443,7 @@ const ViewCourseDetails = props => {
     const [chapter, setChapter] = useState({
         allChapter: null
     })
-    const details = props.location.query
-
-    useEffect(() => {
-
-
-    }, [])
+    const [details, setDetails] = useState([])
 
 
 
@@ -459,50 +461,107 @@ const ViewCourseDetails = props => {
             return true
         }
 
+        if (name === 'video') {
+            setState({
+                ...state,
+                [name]: e.target.files[0]
+            })
+            return true
+        }
+        if (name === 'file') {
+            setState({
+                ...state,
+                [name]: e.target.files[0]
+            })
+            return true
+        }
+
+
+
         setState({
             ...state,
             [name]: val
         })
-        console.log(state);
+
 
     }
-    console.log(chapterRedu);
-    console.log(newCourses);
+    let course_id = props.match.params.id
 
-    const newObj = {
-        course_id: props.match.params.id,
+    let newObj = {
+        course_id: course_id,
         provider_id: chapterRedu.institute_id
     }
 
     useEffect(() => {
-        // if(!userDetail.allCourses){
-            getCourses({institute_id: chapterRedu.institute_id },"institute")
-        //   }
+
+
+        getCourses({ institute_id: chapterRedu.institute_id }, "institute")
+
 
         setTimeout(() => {
             if (!chapterRedu.allChapter) {
                 getChapters(newObj, 'institute')
             }
 
-        }, 2000); 
+        }, 2000);
 
-    },[])
+        console.log('working all chapter');
 
-    useEffect(()=>{
-        console.log(newCourses);
+    }, [])
+
+    useEffect(() => {
         setCourse({
-            courses: newCourses 
+            courses: newCourses
         })
 
-    }, []) 
+        if (newCourses) {
+            let item = newCourses.filter(item => {
+                return item._id === course_id ? item : ''
+            })
+            setDetails(item[0])
+        }
 
-    const submit = () => {
-        console.log(chapterRedu.allChapter);
-        
+    }, [newCourses])
+
+    const submit = (parent_id) => {
+        let anotherObj = {
+            ...newObj,
+            ...state,
+            parent: parent_id ? parent_id : null
+        }
+        if (state.english_name !== '' && state.english_name !== null) {
+            addChapter(anotherObj)
+        }
+        console.log(anotherObj);
+        setTimeout(() => {
+            document.getElementById('chapter_name').value = ""
+
+        }, 1000)
+
     }
-    
 
-    let arr = [1, 2, 3, 4, 5];
+    const update = (id) => {
+
+        let data = {
+            ...state,
+            id,
+            provider_id: chapterRedu.institute_id
+        }
+        updateOneTopic(data)
+
+        setTimeout(() => {
+            setState({
+                ...state,
+                file: null,
+                video: null
+            })
+
+            console.log(state);
+        }, 1000);
+        
+
+    }
+
     return (
 
         <Fragment>
@@ -528,7 +587,7 @@ const ViewCourseDetails = props => {
                 <div className="video-section">
 
                     <div className="col-12 heading">
-                        <h3 className="heading">{details ? details.english_tittle : "Introduction to something"}</h3>
+                        <h3 className="heading">{details ? details.english_tittle : ""}</h3>
 
                         <div className="error-box-edit">
                             <div className="not-editable">
@@ -567,13 +626,13 @@ const ViewCourseDetails = props => {
                             </div>
                             <div className="col-12 col-md-6 courses-list">
                                 {
-                               oldCourses.length > 0 ? 
-                               oldCourses.map((course, i) => (
-                                    <div key={i}>
-                                        <CourseItem course={course} />  
-                                    </div>
-                                ))
-                                : ""
+                                    oldCourses.length > 0 ?
+                                        oldCourses.map((course, i) => (
+                                            <div key={i}>
+                                                <CourseItem course={course} />
+                                            </div>
+                                        ))
+                                        : ""
                                 }
                             </div>
                         </div>
@@ -601,18 +660,34 @@ const ViewCourseDetails = props => {
                                         ?
                                         chapterRedu.allChapter.map((item, index) => {
                                             return <AddChapters
-                                                chapter={item} 
+                                                chapter={item}
                                                 onChangeHandler={onChangeHandler}
-                                                submitHandler={submit} />
-                                        }) 
+                                                submitHandler={submit}
+                                                update={update}
+                                            />
+                                        })
                                         : ""
                                 }
                                 <div className="col-12 nopad">
 
                                     <div className="add-chapter-outer">
 
-                                        <input type="text" className="add-chapter" placeholder="Add Chapter" name="name" onChange={onChangeHandler} />
-                                        <FontAwesomeIcon icon={faPlusCircle} className="plus-icon" />
+                                        <input
+                                            type="text"
+                                            className="add-chapter"
+                                            placeholder="Add Chapter"
+                                            name="english_name"
+                                            id="chapter_name"
+                                            onChange={onChangeHandler}
+
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faPlusCircle}
+                                            className="plus-icon"
+
+                                            onClick={() => { submit(null) }}
+
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -684,12 +759,13 @@ const ViewCourseDetails = props => {
 
 let mapStateToProps = store => {
     console.log(store.ChapterReducer);
-    
+
 
     return {
         chapterRedu: store.ChapterReducer,
         newCourses: store.CourseReducer.allCourses,
-        
+        courseDetailsReducer: store.CourseReducer
+
     }
 }
 let mapDispatchToProps = dispatch => {
@@ -699,7 +775,13 @@ let mapDispatchToProps = dispatch => {
         },
         getChapters: (state, user) => {
             dispatch(getAllChapter(state, user))
-        } 
+        },
+        addChapter: (state) => {
+            dispatch(addNewChapter(state))
+        },
+        updateOneTopic: (state) => {
+            dispatch(updateTopic(state))
+        }
     }
 }
 

@@ -76,7 +76,7 @@ const OfferCourseTable = ({ headings, data, courses }) => {
       <Link to={router.ViewCourseDetails}
         to={{
           pathname: `/admin/course_management/view/${id.oneUser._id}`,
-          query: id.oneUser
+          // query: id.oneUser
         }}>
         <MenuItem onClick={handleMenuClose}>View Course Details</MenuItem>
       </Link>

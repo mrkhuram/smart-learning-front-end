@@ -2,7 +2,8 @@ import {
 
     COURSE_ADDED,
     ERROR,
-    ALL_COURSES
+    ALL_COURSES,
+    ADD_NEW_CHAPTER
 } from '../../constants'
 import history from '../../../components/Common/history'
 import * as routes from '../../../constants/routePaths'
@@ -13,7 +14,8 @@ let initState = {
     userDetail: null,
     msg: null,
     err: null,
-    allCourses: []
+    allCourses: [],
+    allChapters: null
 }
 
 export default function (state = initState, action) {
@@ -23,13 +25,12 @@ export default function (state = initState, action) {
     switch (action.type) {
         case COURSE_ADDED:
 
-            newState.userDetail = action.payload.resp.userData
+            newState.userDetail = action.payload.userData
 
             break;
 
         case ERROR:
-            console.log(action.payload);
-
+ 
             newState.err = action.payload
 
             break;
@@ -44,6 +45,11 @@ export default function (state = initState, action) {
 
 
             break;
+        case ADD_NEW_CHAPTER: 
+        return {
+            ...newState,
+            allChapters: action.payload
+        }
 
         // case PROFILE:
 

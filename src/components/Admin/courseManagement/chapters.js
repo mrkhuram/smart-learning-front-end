@@ -14,15 +14,36 @@ import { faCloudUploadAlt, faCloud, faPlusCircle } from '@fortawesome/free-solid
 
 
 const AddChapters = (props) => {
-    let { chapter, onChangeHandler, submitHandler } = props
+    let { chapter, onChangeHandler, submitHandler, update } = props
 
     const [expanded, setExpanded] = useState(false);
     const handleExpansion = expanded => {
         setExpanded(!expanded);
-    };
-    console.log(chapter);
-    
-    let { english_name, topics, duration } = chapter
+    }
+
+    const [data, setData] = useState({
+        file: null,
+        video: null
+    })
+
+    let { english_name, topics, duration, _id } = chapter
+
+
+    const clearInput = () => {
+        setTimeout(() => {
+            let item = document.getElementById('topic_name')
+
+            item.value = ''
+
+        }, 1000);
+    }
+
+
+    const submitFiles = () => {
+
+    }
+
+
 
     return (
         <Fragment>
@@ -38,12 +59,12 @@ const AddChapters = (props) => {
                             "course-details-view-course"
                     }
                 >
-                    <div className="col-md-6 title-course primary-color"
+                    <div
                         className={
                             expanded ?
-                                "on-expend col-md-6 title-course primary-color"
+                                "on-expend col-md-6 title-course primary-color text-capatlized"
                                 :
-                                "col-md-6 title-course primary-color"
+                                "col-md-6 title-course primary-color text-capatlized"
                         }
                     >
                         {english_name}
@@ -74,15 +95,15 @@ const AddChapters = (props) => {
                     expanded === true
                         // true
                         ?
-                        topics.map(({ english_name }, i) => (
+                        topics.map(({ english_name,_id }, i) => (
                             <Fragment key={i} >
                                 <div className="more-topic-outer col-12">
 
-                                    <div className="primary-color topic-text col-1 ">
+                                    <div className="primary-color topic-text col-1 text-capatlized">
                                         Topic
                                     </div>
                                     <div className="col-11 lecture-title-outer">
-                                        <span className="lecture-title">
+                                        <span className="lecture-title text-capatlized">
                                             {english_name}
                                         </span>
 
@@ -97,18 +118,40 @@ const AddChapters = (props) => {
                                                 <FontAwesomeIcon icon={faCloudUploadAlt} className="cloud-icon" />
                                                     Upload Video
                                             </label>
-                                            <input type="file" className="hidden" id='upload_video' name="video" onChange={onChangeHandler} />
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                id='upload_video'
+                                                name="video"
+                                                onChange={onChangeHandler}
+                                                accept="video/*"
+                                                name="video"
+                                            />
                                         </div>
                                         <div className="button-container-2" title="Upload File">
                                             <label htmlFor="upload_file" className="upload-text" >
                                                 <FontAwesomeIcon icon={faCloudUploadAlt} className="cloud-icon" />
                                                     Upload File
                                             </label>
-                                            <input type="file" className="hidden" id='upload_file' name="file" onChange={onChangeHandler} />
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                id='upload_file'
+                                                name="file"
+                                                onChange={onChangeHandler}
+                                                accept="application/pdf"
+                                                name="file"
+
+                                            />
                                         </div>
 
                                         <div className="action-buttons">
-                                            <button className="action-save save" title="Save">Save</button>
+                                            <button className="action-save save" title="Save"
+                                                onClick={()=>{
+                                                    update(_id)
+                                                }}
+
+                                            >Save</button>
                                             <button className="action-edit edit" title="Edit">Edit</button>
                                             <button className="action-delete delete" title="Delete">Delete</button>
                                         </div>
@@ -126,12 +169,24 @@ const AddChapters = (props) => {
 
                             <div className="add-chapter-outer">
 
-                                <input type="text" className="add-chapter" placeholder="Add Topic" name="name"
+                                <input
+                                    type="text"
+                                    className="add-chapter"
+                                    placeholder="Add Topic"
+                                    name="english_name"
                                     data-topic="for-topic"
+                                    id="topic_name"
                                     onChange={onChangeHandler} />
                                 {/* <button className="plus-button-outer"  > */}
 
-                                    <FontAwesomeIcon icon={faPlusCircle} className="plus-icon" onClick={submitHandler}/>
+                                <FontAwesomeIcon
+                                    icon={faPlusCircle}
+                                    className="plus-icon"
+                                    onClick={(eve) => {
+                                        submitHandler(_id)
+                                        clearInput()
+                                    }}
+                                />
                                 {/* </button> */}
                             </div>
                         </div>

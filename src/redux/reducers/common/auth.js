@@ -9,6 +9,7 @@ import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
+    institute_id: "5e9d4a5eab438002fc7d97df",
     userDetail: null,
     msg: null
 }
