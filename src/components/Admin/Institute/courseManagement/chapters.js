@@ -1,20 +1,21 @@
 import React, { useState, Fragment } from "react";
-import play from "../../../assets/icons/play-icon.png";
-import lock from "../../../assets/icons/lock.png";
-import eye from "../../../assets/icons/eye-view.png";
+import play from "../../../../assets/icons/play-icon.png";
+import lock from "../../../../assets/icons/lock.png";
+import eye from "../../../../assets/icons/eye-view.png";
 
 import "./_addCourse.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { } from '@fortawesome/free-regular-svg-icons'
 import { faCloudUploadAlt, faCloud, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-
+import { connect } from "react-redux";
+import {deleteTopicFromDB} from '../../../../redux/actions/institute/chapterDetailsAction'
 
 
 
 
 const AddChapters = (props) => {
-    let { chapter, onChangeHandler, submitHandler, update } = props
+    let { chapter, onChangeHandler, submitHandler, update,deleteTopicFromDB } = props
 
     const [expanded, setExpanded] = useState(false);
     const handleExpansion = expanded => {
@@ -23,7 +24,7 @@ const AddChapters = (props) => {
 
     const [data, setData] = useState({
         file: null,
-        video: null
+        video: null 
     })
 
     let { english_name, topics, duration, _id } = chapter
@@ -39,9 +40,10 @@ const AddChapters = (props) => {
     }
 
 
-    const submitFiles = () => {
-
+    const deleteTopic = (id) => {
+        deleteTopicFromDB(id)
     }
+
 
 
 
@@ -153,7 +155,10 @@ const AddChapters = (props) => {
 
                                             >Save</button>
                                             <button className="action-edit edit" title="Edit">Edit</button>
-                                            <button className="action-delete delete" title="Delete">Delete</button>
+                                            <button className="action-delete delete" title="Delete"
+                                            onClick={()=> deleteTopic(_id)}
+                                            
+                                            >Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -196,5 +201,9 @@ const AddChapters = (props) => {
             </div>
         </Fragment>
     );
-};
-export default AddChapters;
+}
+
+
+
+
+export default connect(null,{deleteTopicFromDB})(AddChapters)

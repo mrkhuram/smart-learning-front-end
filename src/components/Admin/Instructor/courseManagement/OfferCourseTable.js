@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from "./Modal";
 import { Link } from "react-router-dom";
-import * as router from '../../../constants/routePaths'
+// import * as router from '../../../../constants/routePaths'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -38,9 +38,10 @@ const OfferCourseTable = ({ headings, data, courses }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState({
-    oneUser: {id: 'demo'}
+    oneUser: { id: 'demo' }
   })
 
+  const [discount, setDiscount] = React.useState({})
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -48,9 +49,14 @@ const OfferCourseTable = ({ headings, data, courses }) => {
     setAnchorEl(event.currentTarget);
   };
 
+  
+  const setCourse = (course)=>{
+    setDiscount(course)
+    openModal()
+  }
 
-
-  const openModal = () => {
+  const openModal = (course) => {
+    
     setOpen(true);
   };
   const handleCloseModal = () => {
@@ -71,11 +77,12 @@ const OfferCourseTable = ({ headings, data, courses }) => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={anchorEl}
       onClose={handleMenuClose}
+      
     >
 
-      <Link to={router.ViewCourseDetails}
+      <Link 
         to={{
-          pathname: `/admin/course_management/view/${id.oneUser._id}`,
+          pathname: `/instructor/course_management/view/${id.oneUser._id}`,
           // query: id.oneUser
         }}>
         <MenuItem onClick={handleMenuClose}>View Course Details</MenuItem>
@@ -94,6 +101,7 @@ const OfferCourseTable = ({ headings, data, courses }) => {
         open={open}
         handleCloseModal={handleCloseModal}
         onClose={handleCloseModal}
+        course={discount}
       />
       <table className="table table_course_management table-borderless">
         <thead>
@@ -140,10 +148,12 @@ const OfferCourseTable = ({ headings, data, courses }) => {
                   <td>
 
                     <button className="discountBtn"
-                      onClick={openModal}
+                      onClick={() => { 
+                        setCourse(d)
+                       }}
                     >
                       Discounts
-                </button>
+                    </button>
                     {
                       d.status !== 1
                         ?
@@ -166,19 +176,19 @@ const OfferCourseTable = ({ headings, data, courses }) => {
                       aria-controls={menuId}
                       aria-haspopup="true"
                       onClick={handleProfileMenuOpen}
-                      
+
                       color="inherit"
-                    > 
-                      <MoreVertIcon onMouseOver = {()=>{
-                        setId({ 
+                    >
+                      <MoreVertIcon onMouseOver={() => {
+                        setId({
                           oneUser: d
                         })
-                      }}/>
+                      }} />
                     </IconButton>
                   </td>
                 </tr>
               ))
-              : 
+              :
               <div className="nothing_to_show">
                 <h4>Nothing to Show</h4>
               </div>

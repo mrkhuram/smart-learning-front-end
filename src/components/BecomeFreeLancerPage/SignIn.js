@@ -35,7 +35,7 @@ const SignIn = (props) => {
 
   const loginUser = e => {
     e.preventDefault()
-    login(state, modelFor)
+    login(state, modelFor) 
   }
   return (
     <div>
@@ -114,4 +114,4 @@ let mapDispatchToProps = dispatch => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn)); 

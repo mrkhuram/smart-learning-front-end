@@ -34,7 +34,7 @@ const ModalComp = ({ open, handleCloseModal,type,switchModal }) => {
         <p>Smart Learners Learn with experts.</p>
         <p>Make your free account.Learn</p>
 
-            {
+            { 
                 type === "signIn" ? <SignIn switchModal={switchModal}/> : <SignUp  switchModal={switchModal}/>
             } 
     

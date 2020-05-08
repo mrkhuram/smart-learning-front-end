@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import "./_course_mangement.scss";
 
 import OfferCourseTable from "./OfferCourseTable";
-import { updateProfileInstructor } from '../../../redux/actions/instructor/profileUpdate'
+import { updateProfileInstructor } from '../../../../redux/actions/instructor/profileUpdate'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'; 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from "@material-ui/lab/Rating";
 import { Link } from 'react-router-dom'
-import * as routes from '../../../constants/routePaths'
-import {getAllCourse} from '../../../redux/actions/institute/courseDetailsAction'
+import * as routes from '../../../../constants/routePaths'
+import {getAllCourse} from '../../../../redux/actions/institute/courseDetailsAction'
 
 
 const CourseManagement = props => {
@@ -111,7 +111,7 @@ const CourseManagement = props => {
           >Here you can manage your courses</p>
         </div>
         <div className="col-md-3">
-          <Link to={routes.AddNewCourse}>
+          <Link to={routes.AddNewCourseInstructor}>
             <button className="add-course">
               add new course
           </button>

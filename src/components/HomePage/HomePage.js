@@ -29,8 +29,8 @@ const HomePage = () => {
       <Modal 
         type={modelType}
         open={open}
-        handleCloseModal={handleCloseModal}
-        switchModal={handleSwitchModal}
+        handleCloseModal={handleCloseModal} 
+        switchModal={handleSwitchModal} 
       />
       <Carousel /> 
       <div className="carousel-bottom-text">

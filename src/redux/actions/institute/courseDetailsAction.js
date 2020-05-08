@@ -5,10 +5,15 @@ import {
     ALL_COURSES,
     ERROR,
     ADD_NEW_CHAPTER,
-    ALL_CHAPTER
+    ALL_CHAPTER,
+    ALL_QUESTIONS,
+    INSTITUTE_DEGREE_CATEGORIES,
+    INSTITUTE_DEGREES
 } from '../../constants'
 import {getAllChapter} from './chapterDetailsAction'
-import {getCourses} from '../../../components/Admin/courseManagement/viewCourseDetails';
+// import {getCourses} from '../../../components/Institute/courseManagement/viewCourseDetails';
+import {getCourses} from '../../../components/Admin/Institute/courseManagement/viewCourseDetails';
+
 import store from '../../store'
 
 
@@ -116,3 +121,88 @@ export const addNewChapter = (body)=>{
      }
  }
  
+
+
+ 
+export const getAllTopicsOfQuestions = (body,user)=>{
+   
+    return dispatch =>{
+
+        // body = {course_id : "5ea944a9e9608b3620d1cca5"}
+        
+        axios.post(baseURL + '/api/instructor/comment/getallcomment',body)
+        .then(resp => {
+                console.log(resp);
+                
+            if(resp){
+                dispatch({
+                    type: ALL_QUESTIONS,
+                    payload: resp.data.data
+                })
+            }   
+        })
+        .catch(err => {
+            dispatch({
+                type: ERROR,
+                payload: err
+            })
+        })
+
+    }
+}
+
+
+
+export const getAllDegreeCategory = ()=>{
+   
+    return dispatch =>{
+
+        
+        axios.get(baseURL + '/api/institute/degree/get_all_degree_category')
+        .then(resp => {
+                console.log(resp);
+                
+            if(resp){
+                dispatch({
+                    type: INSTITUTE_DEGREE_CATEGORIES,
+                    payload: resp.data.data
+                })
+            }   
+        })
+        .catch(err => {
+            dispatch({
+                type: ERROR,
+                payload: err
+            })
+        })
+
+    }
+}
+
+
+
+
+export const getAllDegress = ()=>{
+   
+    return dispatch =>{
+        
+        axios.get(baseURL + '/api/institute/degree/get_all',)
+        .then(resp => {
+            console.log(resp);
+                
+            if(resp){
+                dispatch({
+                    type: INSTITUTE_DEGREES,
+                    payload: resp.data.data
+                })
+            }   
+        })
+        .catch(err => {
+            dispatch({
+                type: ERROR,
+                payload: err
+            })
+        })
+
+    }
+}

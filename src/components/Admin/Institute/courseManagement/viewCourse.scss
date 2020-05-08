@@ -1,4 +1,4 @@
-@import "../../../assets//scss//constants";
+@import "../../../../assets//scss//constants";
 .primary-color{
   color: $primary;
 }
@@ -140,15 +140,15 @@ p {
       }
     }
     .courses::before {
-      content: url("../../../assets//icons//courses.png");
+      content: url("../../../../assets//icons//courses.png");
       margin-right: 22px;
     }
     .reviews::before {
-      content: url("../../../assets//icons//reviews.png");
+      content: url("../../../../assets//icons//reviews.png");
       margin-right: 22px;
     }
     .students::before {
-      content: url("../../../assets//icons//students.png");
+      content: url("../../../../assets//icons//students.png");
       margin-right: 22px;
     }
   }
@@ -487,6 +487,7 @@ p {
     position: absolute;
     top: 5px;
     left: 65px;
+    width: 100%
   }
   .day-asked-question{
    position: absolute;

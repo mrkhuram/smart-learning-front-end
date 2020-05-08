@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stepper from "react-stepper-horizontal/lib/Stepper";
 import "./_addCourse.scss";
 import Modal from "react-modal";
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux'
-import { addNewCourse } from '../../../redux/actions/institute/courseDetailsAction'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
+import {
+  addNewCourse,
+  getAllDegreeCategory,
+  getAllDegress
+} from '../../../../redux/actions/institute/courseDetailsAction'
 
 
 
@@ -21,7 +25,16 @@ const customStyles = {
 };
 
 const AddNewCourse = props => {
-  const {postCourseDetails} = props
+
+
+
+  const {
+    postCourseDetails,
+    getDegreeCategories,
+    getDegrees,
+    allDegrees
+
+  } = props
   const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [arabic, setArabic] = useState([])
@@ -53,6 +66,9 @@ const AddNewCourse = props => {
     subject: '5e888d4ef0173722046475cd'
 
   })
+
+  const [allDegree, setAllDegree] = useState([])
+  const [degreeCategories, setDegreeCategories] = useState([])
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -165,10 +181,9 @@ const AddNewCourse = props => {
     })
 
 
-
   }
 
-  const setttingUp = ()=>{
+  const setttingUp = () => {
     let newObj = {
       price_type: state.price_type, // 1=> Paid, 2=>Free
       original_amount: state.original_amount
@@ -185,11 +200,44 @@ const AddNewCourse = props => {
   }
 
   const onSubmitHandler = () => {
-    // let newResp = await setttingUp()
+
     postCourseDetails(state, "institute")
-  
+
 
   }
+
+
+
+
+
+  // It will fire after the render
+
+
+  useEffect(() => {
+
+    getDegrees()
+    getDegreeCategories()
+
+
+
+
+  }, [])
+
+
+
+  
+
+  // It will fire when the component will update the props
+
+  useEffect(() => {
+
+    setAllDegree(allDegrees.degrees)
+    setDegreeCategories(allDegrees.categories_degree)
+
+
+  }, [allDegrees])
+
+
 
 
 
@@ -231,10 +279,10 @@ const AddNewCourse = props => {
               <div className="side-text-left-outer">
 
                 <div className="side-text-left">
-                  <label htmlFor="" className="side-text-label label-1">Degree</label>
+                  <label htmlFor="" className="side-text-label label-1">Category</label>
                 </div>
                 <div className="side-text-left">
-                  <label htmlFor="" className="side-text-label label-2">Subject</label>
+                  <label htmlFor="" className="side-text-label label-2">Degree</label>
                 </div>
                 <div className="side-text-left">
                   <label htmlFor="" className="side-text-label label-3">Title English</label>
@@ -259,28 +307,44 @@ const AddNewCourse = props => {
 
                 <div className="side-input-right">
 
-                  <select 
-                  // name="degree"
-                    // onChange={onChangeHandler}
+                  <select
+                    name="category"
+                    onChange={onChangeHandler}
                     id="" className="side-text-select">
-                    <option value="0" className="side-text-option select-text-option">Select Degree</option>
+                    <option value="0" className="side-text-option select-text-option">Select Category</option>
 
-                    <option value="degree 1" className="side-text-option">1</option>
-                    <option value="degree 2" className="side-text-option">2</option>
-                    <option value="degree 3" className="side-text-option">3</option>
+                    {
+                      degreeCategories.length > 0 ?
+                        degreeCategories.map((item, key) => {
+                          return <option value={item._id} className="side-text-option">{item.english_category}</option>
+                        })
+                        :
+                        ''
+                    }
+
                   </select>
                 </div>
                 <div className="side-input-right">
 
-                  <select 
-                  // name="subject"
-                    // onChange={onChangeHandler}
+                  <select
+                    name="degree"
+                    onChange={onChangeHandler}
                     id="" className="side-text-select ">
-                    <option value="0" className="side-text-option select-text-option">Select Subject</option>
+                    <option value="0" className="side-text-option select-text-option">Select Degree</option>
+                    {
+                      allDegree.length > 0 ?
+                        allDegree.map((item, key) => {
+                          return <option value={item._id} className="side-text-option">{item.degree_name_in_english}</option>
+                        })
+                        :
+                        ''
+                    }
 
-                    <option value="subject 1" className="side-text-option">1</option>
+                    {/* <option value="subject 1" className="side-text-option">1</option>
                     <option value="subject 2" className="side-text-option">2</option>
-                    <option value="subject 3" className="side-text-option">3</option>
+                    <option value="subject 3" className="side-text-option">3</option> */}
+
+
                   </select>
                 </div>
                 <div className="side-input-right">
@@ -342,11 +406,11 @@ const AddNewCourse = props => {
 
                   <select name="languages"
                     onChange={onChangeHandler} id="" className="side-text-select ">
-                    <option value="0" className=" select-text-option">Select Subject</option>
+                    <option value="0" className=" select-text-option">Select Languages</option>
 
-                    <option value="langugage 1" className="side-text-option">1</option>
-                    <option value="langugage 2" className="side-text-option">2</option>
-                    <option value="langugage 3" className="side-text-option">3</option>
+                    <option value="english" className="side-text-option">English</option>
+                    <option value="arabic" className="side-text-option">Arabic</option>
+                    {/* <option value="langugage 3" className="side-text-option">3</option> */}
                   </select>
                 </div>
                 <div className="side-text-right">
@@ -537,9 +601,9 @@ const AddNewCourse = props => {
 
                 <input type="text" className="tag-input-2" id="input-tags-2" name="tagsArabic"
                   placeholder="Enter Keywords in Arabic"
-                  onChange={addTags} 
-                  // onBlur={setttingUp}
-                  />
+                  onChange={addTags}
+                // onBlur={setttingUp}
+                />
               </div>
               {
                 msg ? <p
@@ -583,10 +647,10 @@ const AddNewCourse = props => {
                 onSubmitHandler()
               }
               }
-              onMouseOver={setttingUp}
-              
-              
-              >Done</button> 
+                onMouseOver={setttingUp}
+
+
+              >Done</button>
             )}
         </div>
       </div>
@@ -612,16 +676,23 @@ const AddNewCourse = props => {
 let mapStateToProps = store => {
 
   return {
-    userDetail: store.auth.userDetail
+    userDetail: store.auth.userDetail,
+    allDegrees: store.DegreeReducer
   }
 }
 let mapDispatchToProps = dispatch => {
   return {
-    postCourseDetails: (data,user)=>{
-      dispatch(addNewCourse(data,user))
-    }
+    postCourseDetails: (data, user) => {
+      dispatch(addNewCourse(data, user))
+    },
+    getDegreeCategories: (data) => {
+      dispatch(getAllDegreeCategory(data))
+    },
+    getDegrees: () => {
+      dispatch(getAllDegress())
+    },
   }
 }
 
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(AddNewCourse))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddNewCourse))

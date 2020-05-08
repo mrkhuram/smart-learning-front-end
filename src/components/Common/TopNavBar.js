@@ -14,7 +14,7 @@ const TopNavBar = (props) => {
       </Link>
       <button
         className="navbar-toggler"
-        type="button"
+        type="button" 
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
@@ -56,7 +56,7 @@ const TopNavBar = (props) => {
               openModal();
             }}
           >
-            Sign In
+            Sign In 
           </button>
           <button
             className="sign-btn"

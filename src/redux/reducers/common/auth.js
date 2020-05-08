@@ -2,16 +2,21 @@ import {
     REGISTER,
     INVALID_INFORMATION,
     LOGIN,
-    PROFILE
+    PROFILE,
+    FEE_PAID
 } from '../../constants'
 import history from '../../../components/Common/history'
 import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
-    institute_id: "5e9d4a5eab438002fc7d97df",
+    // institute_id: "5e9d4a5eab438002fc7d97df",
     userDetail: null,
-    msg: null
+    msg: null,
+    status: true, // if false profile gets under review
+    paid: true, // if false then user will see the payment page
+    authenticated: true,
+    feeStatus: null
 }
 
 export default function (state = initState, action) {
@@ -25,7 +30,7 @@ export default function (state = initState, action) {
                 history.push(routes.RegisterAsInstitute)
             }
             if (action.payload.type === "instructor") {
-                history.push(routes.OfferCourse)
+                history.push(routes.RegisterAsInstructor)
             }
 
 
@@ -42,33 +47,43 @@ export default function (state = initState, action) {
 
         case LOGIN:
 
-            console.log(action.payload.resp);
-
-            newState.userDetail = action.payload.resp
+            console.log(action.payload.resp.resp);
+            newState.authenticated = true
+            newState.Institute_id = action.payload.resp.resp._id
+            newState.userDetail = action.payload.resp.resp
             setTimeout(() => {
                 if (action.payload.type === "institute") {
-                    history.push(routes.RegisterAsInstitute)
+                    if (action.payload.resp.resp.fee.status === 1) {
+                        history.push(routes.PayFee)
+                    }
+                    else {
+                        history.push(routes.RegisterAsInstitute)
+                    }
                 }
                 if (action.payload.type === "instructor") {
-                    history.push(routes.OfferCourse)
+                    if (action.payload.resp.resp.status === 2) {
+                        history.push(routes.PayFee)
+                    }
+                    if (action.payload.resp.resp.status !== 2) {
+                        history.push(routes.RegisterAsInstructor)
+                    }
+
                 }
-                
+
             });
 
             break;
 
         case PROFILE:
 
-            console.log(action.payload.resp);
 
             newState.userDetail = action.payload.resp
 
-            // if (action.payload.type === "institute") {
-            //     history.push(routes.RegisterAsInstitute)
-            // }
-            // if (action.payload.type === "instructor") {
-            //     history.push(routes.OfferCourse)
-            // }
+            break;
+
+        case FEE_PAID:
+
+            newState.feeStatus = action.payload.resp
 
             break;
 

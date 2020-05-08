@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useEffect } from "react";
 // import "../../CourseDetail/scss/_detail.scss";
-import TopNavBAr from "../../Common/TopNavBar";
+import TopNavBAr from "../../../Common/TopNavBar";
 import Rating from "@material-ui/lab/Rating";
-import GeneralSlider from "../../Common/GeneralSlider/GeneralSlider";
-import Footer from "../../Common/Footer";
-import Review from "../../CourseDetail/Review";
-import TimeDown from "../../CourseDetail/TimeDown";
-import CourseItem from "../../CourseDetail/CourseItem";
-import videoPoster from "../../CourseDetail/poster.png";
-import video from "../../CourseDetail/video.mkv";
+import GeneralSlider from "../../../Common/GeneralSlider/GeneralSlider";
+import Footer from "../../../Common/Footer";
+import Review from "../../../CourseDetail/Review";
+import TimeDown from "../../../CourseDetail/TimeDown";
+import CourseItem from "../../../CourseDetail/CourseItem";
+import videoPoster from "../../../CourseDetail/poster.png";
+import video from "../../../CourseDetail/video.mkv";
 import './viewCourse.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
@@ -17,8 +17,13 @@ import QuestionAsked from './questions'
 import { faReply, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getAllChapter, updateTopic } from '../../../redux/actions/institute/chapterDetailsAction'
-import { getAllCourse, addNewChapter } from '../../../redux/actions/institute/courseDetailsAction'
+import { getAllChapter, updateTopic } from '../../../../redux/actions/institute/chapterDetailsAction'
+import {
+    getAllCourse,
+    addNewChapter,
+    getAllTopicsOfQuestions
+}
+    from '../../../../redux/actions/institute/courseDetailsAction'
 
 
 const dummText =
@@ -428,7 +433,9 @@ const ViewCourseDetails = props => {
         newCourses,
         getCourses,
         addChapter,
-        updateOneTopic
+        updateOneTopic,
+        getAllQuestions,
+        newQuestions
     } = props
     const [state, setState] = useState({
         english_name: null,
@@ -440,11 +447,15 @@ const ViewCourseDetails = props => {
     const [course, setCourse] = useState({
         courses: []
     })
+    const [question, setQuestion] = useState({
+        questions: []
+    })
     const [chapter, setChapter] = useState({
         allChapter: null
     })
     const [details, setDetails] = useState([])
 
+    const [selectedTopic, setSelectedTopic] = useState({})
 
 
     const onChangeHandler = (e) => {
@@ -497,6 +508,7 @@ const ViewCourseDetails = props => {
 
         getCourses({ institute_id: chapterRedu.institute_id }, "institute")
 
+        getAllQuestions({ course_id: props.match.params.id })
 
         setTimeout(() => {
             if (!chapterRedu.allChapter) {
@@ -513,6 +525,11 @@ const ViewCourseDetails = props => {
         setCourse({
             courses: newCourses
         })
+        setQuestion({
+            questions: newQuestions
+        })
+        console.log(newQuestions);
+
 
         if (newCourses) {
             let item = newCourses.filter(item => {
@@ -521,7 +538,7 @@ const ViewCourseDetails = props => {
             setDetails(item[0])
         }
 
-    }, [newCourses])
+    }, [newCourses, newQuestions])
 
     const submit = (parent_id) => {
         let anotherObj = {
@@ -541,7 +558,6 @@ const ViewCourseDetails = props => {
     }
 
     const update = (id) => {
-
         let data = {
             ...state,
             id,
@@ -558,9 +574,23 @@ const ViewCourseDetails = props => {
 
             console.log(state);
         }, 1000);
-        
-
     }
+
+    const selectedTopicFromDropDown = (e) => {
+        let id = e.target.value
+    
+        let result = question.questions.comment.filter((item)=>{
+            return item._id === id ? item : ''
+        })
+
+
+
+        setSelectedTopic(result[0])
+        
+        
+        
+    }
+    
 
     return (
 
@@ -696,21 +726,30 @@ const ViewCourseDetails = props => {
 
                                 <p className="spacing student-question-heading">Student Questions</p>
 
-                                <select name="" id="" className="select-topic-in-question">
+                                <select name="" id="" className="select-topic-in-question"  
+                                onChange={selectedTopicFromDropDown}
+                                >
 
                                     <option value="select topic">Select Topic</option>
-                                    <option value="0">topic #1</option>
-                                    <option value="1">topic #2</option>
-                                    <option value="2">topic #3</option>
-                                    <option value="3">topic #4</option>
-                                    <option value="4">topic #5</option>
+                                    {
+                                        question.questions.comment ?
+                                            question.questions.comment.map((item, key) => {
+                                                return <option value={item._id} key={key}>{item.body}</option>
+                                            })
+                                            :
+                                            ''
+                                    }
 
 
                                 </select>
                                 <div className="_width">
-
                                     <p className="student-question-topic-text"> Topic - </p>
-                                    <h5 className="spacing course-title">Role of White Blood cells in our body</h5>
+                                    <h5 className="spacing course-title">
+                                        { selectedTopic ? 
+                                        selectedTopic.body : 
+                                        question.questions.comment ? 
+                                        question.questions.comment[0].item.body : 
+                                        "Loading..."}</h5>
                                 </div>
                                 <div className="total-question-asked-outer">
                                     <p className="total-question">Total Question Asked : <span className="question-number">101</span> </p>
@@ -720,9 +759,12 @@ const ViewCourseDetails = props => {
                                 </div>
 
                                 {
-                                    questions.map((item, index) => {
-                                        return <QuestionAsked ques={item} />
+                                    selectedTopic.reply ?
+                                    selectedTopic.reply.map((item, index) => {
+                                        return <QuestionAsked ques={item} />    
                                     })
+                                    : 
+                                    ''
                                 }
                             </div>
                         </div>
@@ -758,13 +800,14 @@ const ViewCourseDetails = props => {
 
 
 let mapStateToProps = store => {
-    console.log(store.ChapterReducer);
+    // console.log(store.ChapterReducer);
 
 
     return {
         chapterRedu: store.ChapterReducer,
         newCourses: store.CourseReducer.allCourses,
-        courseDetailsReducer: store.CourseReducer
+        courseDetailsReducer: store.CourseReducer,
+        newQuestions: store.CourseReducer.allQuestions
 
     }
 }
@@ -781,7 +824,10 @@ let mapDispatchToProps = dispatch => {
         },
         updateOneTopic: (state) => {
             dispatch(updateTopic(state))
-        }
+        },
+        getAllQuestions: (state) => {
+            dispatch(getAllTopicsOfQuestions(state))
+        },
     }
 }
 

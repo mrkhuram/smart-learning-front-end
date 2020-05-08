@@ -4,13 +4,34 @@ export const User = "/user/profile";
 export const Service = "/service";
 
 export const BecomeFreelancer = "/become-freelancer";
-export const Admin = "/admin";
-export const OfferCourse = "/admin/offer-course";
-export const OfferService = "/admin/offer-service";
-export const RegisterAsInstitute = "/admin/set-profile";
-export const CourseManagement = "/admin/course_management";
-export const AddNewCourse = "/admin/course_management/new";
-export const ViewCourseDetails = "/admin/course_management/view/:id";
+
+
+
+// institute panel
+
+export const Institute = "/institute";
+export const InstituteHome = "/institute/deshboard";
+
+export const OfferCourseInstitute = "/institute/offer-course";
+export const SalesManagement = "/institute/manage/sales";
+export const RegisterAsInstitute = "/institute/set-profile";
+export const CourseManagementInstitute = "/institute/course_management";
+export const AddNewCourseInstitute = "/institute/course_management/new";
+export const ViewCourseDetailsInstitute = "/institute/course_management/view/:id";
+export const PayFee = "/institute/pay_registration_fee";
+export const ProfileUnderReview = "/institute/review_profile";
+
+
+
+// instructor panel
+
+export const Instructor = "/instructor";
+export const OfferCourseInstructor = "/instructor/offer-course";
+export const OfferServiceInstructor = "/instructor/offer-service";
+export const RegisterAsInstructor = "/instructor/set-profile";
+export const CourseManagementInstructor = "/instructor/course_management";
+export const AddNewCourseInstructor = "/instructor/course_management/new";
+export const ViewCourseDetailsInstructor = "/instructor/course_management/view/:id";
 
 
 

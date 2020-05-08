@@ -129,3 +129,29 @@ export const updateTopic = (body) => {
 
     }
 }
+
+export const deleteTopicFromDB = (id) => {
+    return dispatch => {
+      
+        axios.get(baseURL + `/api/institute/chapter/delete_topic?id=${id}`)
+            .then(resp => {
+                console.log(resp);
+
+                if (resp) {
+                    dispatch({
+                        type: TOPIC_UPDATED,
+                        payload: resp.data.data
+                    })
+                }
+            }).then(()=>{
+                dispatch(getAllChapter())
+            })
+            .catch(err => {
+                dispatch({
+                    type: ERROR,
+                    payload: err
+                })
+            })
+
+    }
+}

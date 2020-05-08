@@ -38,7 +38,7 @@ const BecomeFreelancerPage = props => {
           switchModal={handleSwitchModal}
           modelFor={modelFor}
           onClose={handleCloseModal}
-        />
+        /> 
 
         <div className="become-freelancer">
           <div className="row" style={{ padding: "20px 36px" }}>
@@ -124,7 +124,7 @@ const BecomeFreelancerPage = props => {
           </div>
         </div>
         <Footer />
-      </Fragment>
+      </Fragment> 
     </>
   )
 }

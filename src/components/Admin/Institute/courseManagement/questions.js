@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
-import play from "../../../assets/icons/play-icon.png";
-import lock from "../../../assets/icons/lock.png";
-import eye from "../../../assets/icons/eye-view.png";
+import play from "../../../../assets/icons/play-icon.png";
+import lock from "../../../../assets/icons/lock.png";
+import eye from "../../../../assets/icons/eye-view.png";
 
 import "./_addCourse.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +23,9 @@ const QuestionAsked = (props) => {
     };
 
 
-    let { display_image, name, time, question } = ques
+    let { user_name, reply_body } = ques
+    console.log(ques);
+
 
     return (
         <div className="course-chapter-box col-12 nopad qustions-container-outer">
@@ -34,15 +36,16 @@ const QuestionAsked = (props) => {
                     <div className="col-12 basic-details-outer">
                         {/* <img src="" alt="U" className="user-image-asked-question"/> */}
                         <p className="user-image-asked-question">U</p>
-                        <p className="display-name-asked-question">Umer Ahmad</p>
+                        <p className="display-name-asked-question">
+                            {/* Umer Ahmad */}
+                            {user_name}
+                        </p>
                         <p className="day-asked-question">5 days ago</p>
                     </div>
                     <div className="col-12">
                         <p className="actual-question">
-                            After the course, it's all about us to use what we learn love the courses made it by chad
-                                                    <br />
-                                                    Please ans me as soon as possible.
-                                                </p>
+                            {reply_body}
+                        </p>
                     </div>
 
                 </div>

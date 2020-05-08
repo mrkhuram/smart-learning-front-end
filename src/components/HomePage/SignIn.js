@@ -7,7 +7,7 @@ import GoogleAuthorize from "react-google-authorize";
 import fb from "../../assets/icons/facebook.png";
 import gmail from "../../assets/icons/gmail.png";
 import { signIn } from '../../redux/actions/auth'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux' 
 
 const responseFacebook = response => {
   console.log(response);
@@ -35,7 +35,7 @@ const SignIn = (props) => {
 
   const loginUser = e => {
     e.preventDefault()
-    login(state, "institute")
+    login(state, "customer")
   }
 
 
@@ -150,6 +150,6 @@ let mapDispatchToProps = dispatch => {
     }
   }
 }
-
+  
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));

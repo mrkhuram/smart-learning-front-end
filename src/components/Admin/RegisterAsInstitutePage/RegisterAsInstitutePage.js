@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./_registerInstitute.scss";
 import Stepper from "react-stepper-horizontal";
 import Select from "../../Common/Select";
@@ -6,13 +6,14 @@ import CustomUploadFile from "../common/CustomUploadFile.js/CustomUploadFile";
 import AdminTable from "../common/AdminTable/AdminTable";
 import AdminModal from "../common/AdminModal/AdminModal";
 import InitialMap from "./Map/Map";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {updateProfile} from '../../../redux/actions/institute/profileUpdate'
+import { updateProfile } from '../../../redux/actions/institute/profileUpdate'
+import { getAllInstitute } from '../../../redux/actions/institute/getInstitute'
 
 const RegisterAsInstitutePage = props => {
 
-  const { userDetail, setNewProfile } = props
+  const { userDetail, setNewProfile, getInstitute } = props
 
   const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -31,7 +32,10 @@ const RegisterAsInstitutePage = props => {
     licance_file: null,
     licance_name: null,
     otp: null,
-    password: null
+    password: null,
+    confirm_password : null,
+    email: userDetail ? userDetail.email : null,
+    id: userDetail ? userDetail._id : null,
 
   })
 
@@ -47,6 +51,7 @@ const RegisterAsInstitutePage = props => {
   const onChangeHandler = e => {
     let name = e.target.name
     let val = e.target.value
+    
 
     if (name === 'certificate_file') {
       setState({
@@ -73,13 +78,12 @@ const RegisterAsInstitutePage = props => {
       ...state,
       [name]: val
     })
-
-
+  
 
   }
 
   const addFile = () => {
-    const cerfiticates_detail = [ 
+    const cerfiticates_detail = [
       {
         certificate_file: state.certificate_file,
         certificate_name: state.certificate_name
@@ -99,18 +103,55 @@ const RegisterAsInstitutePage = props => {
     })
   }
 
-  const submit = (e) => {
-    // e.preventDefault()
-    console.log(state)
-    setNewProfile(state,"institute")
+
+
+  const checkPassword = e => {
+
+    if (state.password) {
+      if (state.password === state.confirm_password) {
+        setState({
+          ...state, msg: null
+        })
+        closeModal();
+        // setVerified(false);
+        setState({
+          ...state,
+          password: state.password
+        })
+        submit()
+
+      }
+      if (state.password !== state.confirm_password) {
+
+        setState({
+          ...state, msg: "Password didn't match."
+        })
+      }
+      return true
+    }
+    closeModal();
+    // setVerified(false);
+
 
   }
 
+  const submit = (e) => {
+    // e.preventDefault()
+    console.log(state)
+    setNewProfile(state, "institute")
+
+  }
+
+  useEffect(() => {
+    // getInstitute()
+  })
+
+
+
   return (
     <div className="offer-course-cntnr">
-      <AdminModal isOpen={modalOpen} closeModal={closeModal} setPassword={setState} password={state}/>
-
-
+      <AdminModal isOpen={modalOpen} closeModal={closeModal} onChangeHandler={onChangeHandler} checkPassword={checkPassword} />
+  
       <h3 className="heading">Set Your Profile</h3>
 
       <div className="row mt-4">
@@ -145,7 +186,7 @@ const RegisterAsInstitutePage = props => {
         <div className="col-12 col-md-7 p-0 mb-4 mt-2">
           {activeStep === 1 && (
             <div className="row">
-              <div className="col-12 col-lg-6 dropdown-div offer-course-select-div">
+              <div className="col-12 col-lg-5 dropdown-div offer-course-select-div">
                 <p className="select-label"> Institute Type</p>
                 <Select category="Select your Institute" onChangeHandler={onChangeHandler} type="type" />
               </div>
@@ -160,6 +201,7 @@ const RegisterAsInstitutePage = props => {
                   name="name"
                   id="job"
                   placeholder="Institute Name"
+                  onChange={onChangeHandler}
                 />
               </div>
               <div className="col-12 p-0 mt-4 mb-4">
@@ -179,6 +221,7 @@ const RegisterAsInstitutePage = props => {
                       id="job"
                       value={userDetail ? userDetail.email : null}
                       placeholder={userDetail ? userDetail.email : "Example@example.com"}
+                      onChange={onChangeHandler}
                     />
                   </div>
                   <div className="col-12 mt-4 mb-2 p-0">
@@ -253,11 +296,11 @@ const RegisterAsInstitutePage = props => {
 
           {activeStep === 3 && (
             <div className="row mb-4">
-              <div className="col-12 col-lg-6 p-0 dropdown-div offer-course-select-div mt-3">
+              <div className="col-12 col-lg-5 p-0 dropdown-div offer-course-select-div mt-3">
                 <p className="select-label">Institute Certificate</p>
                 <Select category="Select your institute" onChangeHandler={onChangeHandler} type="certificate_name" />
               </div>
-              <div className="col-12 p-0 text-left col-lg-6 mt-3">
+              <div className="col-12 p-0 text-left col-lg-5 mt-3 left-margin-20">
                 <p className="select-label">Attach Institute Certificate</p>
                 <div className="row">
                   <div className="col-12 p-0 col-lg-8">
@@ -270,11 +313,11 @@ const RegisterAsInstitutePage = props => {
                 </div>
               </div>
 
-              <div className="col-12 col-lg-6 p-0 dropdown-div offer-course-select-div mt-3">
+              <div className="col-12 col-lg-5 p-0 dropdown-div offer-course-select-div mt-3">
                 <p className="select-label">Institute license</p>
                 <Select category="Select your institute" onChangeHandler={onChangeHandler} type="licance_name" />
               </div>
-              <div className="col-12 p-0 text-left col-lg-6 mt-3">
+              <div className="col-12 p-0 text-left col-lg-5 mt-3 left-margin-20">
                 <p className="select-label">Attach Institute Certificate</p>
                 <div className="row">
                   <div className="col-12 p-0 col-lg-8">
@@ -336,7 +379,7 @@ const RegisterAsInstitutePage = props => {
             </div>
           )}
         </div>
-        <div className="col-12 col-md-7 p-0 actionsArea-bottom">
+        <div className="col-12 col-md-7 p-0 actionsArea-bottom left-margin-20">
           <button
             className="primaryBtn cancel"
             onClick={handleBack}
@@ -356,7 +399,7 @@ const RegisterAsInstitutePage = props => {
             (
               <button className="primaryBtn" onClick={() => {
                 setModalOpen(true)
-                submit()
+
               }
               }>
                 Get Code
@@ -378,9 +421,12 @@ let mapStateToProps = store => {
 }
 let mapDispatchToProps = dispatch => {
   return {
-    setNewProfile: (state,user) => {
-      dispatch(updateProfile(state,user))
-    }
+    setNewProfile: (state, user) => {
+      dispatch(updateProfile(state, user))
+    },
+    // getInstitute: () => {
+    //   dispatch(getAllInstitute())
+    // },
   }
 }
 

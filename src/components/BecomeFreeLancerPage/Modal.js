@@ -41,7 +41,7 @@ const ModalComp = ({ open, handleCloseModal, type, switchModal,modelFor }) => {
             modelFor={modelFor}
             />
             :
-            <SignUp switchModal={switchModal} 
+            <SignUp switchModal={switchModal}  
             modelFor={modelFor}
             />
         }

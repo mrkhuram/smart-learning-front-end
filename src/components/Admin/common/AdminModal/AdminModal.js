@@ -15,54 +15,50 @@ const customStyles = {
   }
 };
 
-const AdminModal = ({ isOpen, closeModal, setPassword, password }) => {
+const AdminModal = ({ isOpen, closeModal,onChangeHandler, checkPassword }) => {
   const [otp, setOtp] = useState("");
   const [verified, setVerified] = useState(false);
-  const [state, setState] = useState({
+  const [state, setState] = useState({ 
     password: null,
     confirm_password: null,
     msg: null
   })
 
+  // console.log(setPassword);
+  
 
 
 
-  const onChangeHandler = e => {
-    let name = e.target.name
-    let value = e.target.value
 
-    setState({
-      ...state,
-      [name]: value
-    })
+  // const checkPassword = e => {
 
-  }
+  //   if (state.password) {
+  //     if (state.password === state.confirm_password) {
+  //       setState({
+  //         ...state, msg: null
+  //       })
+  //       closeModal();
+  //       setVerified(false);
+  //       // setPassword({
+  //       //   ...prevPassword,
+  //       //   password: state.password
+  //       // })
+  //       // submit()
 
-  const checkPassword = e => {
+  //     }
+  //     if (state.password !== state.confirm_password) {
 
-    if (state.password) {
-      if (state.password === state.confirm_password) {
-        setState({
-          ...state, msg: ""
-        })
-        closeModal();
-        setVerified(false);
-        setPassword({
-          ...password,
-          password: state.password
-        })
-      }
-      if (state.password !== state.confirm_password) {
+  //       setState({
+  //         ...state, msg: "Password didn't match."
+  //       })
+  //     }
+  //     return true
+  //   }
+  //   closeModal();
+  //   setVerified(false);
+   
 
-        setState({
-          ...state, msg: "Password didn't match."
-        })
-      }
-    }
-    closeModal();
-    setVerified(false);
-
-  }
+  // }
 
   return (
     <Modal
@@ -118,14 +114,14 @@ const AdminModal = ({ isOpen, closeModal, setPassword, password }) => {
             {verified && (
               <>
                 <input
-                  type="text"
+                  type="password"
                   className="password-input set-password"
                   placeholder="Enter password"
                   name="password"
                   onChange={onChangeHandler}
                 />
                 <input
-                  type="text"
+                  type="password"
                   className="password-input reset-password"
                   placeholder="Re enter password"
                   name="confirm_password"
@@ -146,6 +142,7 @@ const AdminModal = ({ isOpen, closeModal, setPassword, password }) => {
                     className="primaryBtn verify"
                     onClick={() => {
                       checkPassword()
+                 
                     }}
                   >
                     Verify

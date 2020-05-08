@@ -5,7 +5,9 @@ import {
     INVALID_INFORMATION,
     LOGIN,
     PROFILE
-} from '../constants'
+} from '../constants' 
+import { toast } from "react-toastify";
+
 
 
 
@@ -34,21 +36,27 @@ export const registerUser = (body,user)=>{
 
 
 
-export const signIn = (body,user)=>{
+export const signIn = (body,user)=>{ 
     return dispatch =>{
         console.log(body,user);
         
         axios.post(baseURL + '/api/'+ user +'/auth/login',body)
         .then(resp => {
             if(resp){
+                toast.success(resp.data.message)
                 console.log(resp);
                 dispatch({
-                    type: LOGIN,
-                    payload: {resp: resp.data, type: user}
+                    type: LOGIN, 
+                    payload: {resp: resp.data.data, type: user}
                 })
             }    
         })
         .catch(err => {
+            
+            if(err) toast.error("Internal Server Error")
+            
+            
+
             dispatch({
                 type: INVALID_INFORMATION,
                 payload: err

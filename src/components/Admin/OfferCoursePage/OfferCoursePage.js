@@ -10,11 +10,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'; 
 
 
-
 const OfferCoursePage = props => {
+
+
   const { setNewProfile } = props
 
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [state, setState] = useState({
     institute: null,
@@ -33,14 +34,15 @@ const OfferCoursePage = props => {
 
 
   const handleNext = () => {
-    return setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
-  const closeModal = () => setModalOpen(false);
 
+
+  const closeModal = () => setModalOpen(false);
 
   const onChangeHandler = e => {
     let name = e.target.name
@@ -65,10 +67,12 @@ const OfferCoursePage = props => {
       ...state,
       [name]: value
     })
+
   }
 
 
   const addFile = () => {
+
     const cerfiticates_detail = [
       {
         certification_file: state.certification_file,
@@ -91,11 +95,14 @@ const OfferCoursePage = props => {
 
 
   const submit = (e) => {
-    e.preventDefault()
+    
+    // e.preventDefault()
     console.log(state)
     setNewProfile(state, "instructor")
 
   }
+
+
   return (
     <div className="offer-course-cntnr">
       <AdminModal
@@ -131,19 +138,20 @@ const OfferCoursePage = props => {
             activeStep={activeStep}
           />
         </div>
-        <form method="post" enctype="multipart/form-data" >
+
 
           <div className="col-12 col-md-8" >
-            {activeStep === 1 && (
+            {
+            activeStep === 1 && (
               <div className="row">
-                <div className="col-12 dropdown-div offer-course-select-div">
+                <div className="col-12 col-md-10 dropdown-div offer-course-select-div">
                   <p className="select-label"> Select Institute</p>
                   <Select category="Select your Institute" onChangeHandler={onChangeHandler} type="institute" />
                 </div>
                 <div className="col-12 p-0 mt-4 mb-4">
                   <div className="row">
 
-                    <div className="col-12 col-lg-6 p-0 dropdown-div offer-course-select-div ">
+                    <div className="col-12 col-lg-5 p-0 dropdown-div offer-course-select-div ">
                       <p className="select-label">Add Degree</p>
                       <Select category="Select your Degree" onChangeHandler={onChangeHandler} type="degree_name" />
                     </div>
@@ -174,7 +182,7 @@ const OfferCoursePage = props => {
                       </div>
                     </div>
 
-                    <div className="col-12 mt-4 p-0">
+                    <div className="col-12 mt-4 p-0 col-md-11 degree-details">
                       <OfferCourseTable
                         headings={["degree name", "documents", "actions"]}
                         data={[
@@ -187,11 +195,12 @@ const OfferCoursePage = props => {
                 </div>
               </div>
             )}
-            {activeStep === 2 && (
+            {
+            activeStep === 2 && (
               <div className="row">
                 <div className="col-12 p-0 mt-4 mb-4">
                   <div className="row">
-                    <div className="col-12 col-lg-6 p-0 dropdown-div offer-course-select-div ">
+                    <div className="col-12 col-lg-5 p-0 dropdown-div offer-course-select-div ">
                       <p className="select-label">Add Certification</p>
                       <input
                         type="text"
@@ -228,7 +237,7 @@ const OfferCoursePage = props => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 mt-4 p-0">
+                    <div className="col-12 mt-4 p-0 col-md-11 left-margin-20">
                       <OfferCourseTable
                         headings={["certification name", "documents", "actions"]}
                         data={[
@@ -247,14 +256,15 @@ const OfferCoursePage = props => {
                 </div>
               </div>
             )}
-            {activeStep === 3 && (
+            {
+            activeStep === 3 && (
               <div className="row mb-4">
-                <div className="col-12 col-md-6 pl-0">
-                  <p className="mb-2 offer-course-input-label">
+                <div className="col-12 col-md-10 pl-0">
+                  <p className="mb-2 offer-course-input-label left-margin-20">
                     Tell Us About Yourself
                 </p>
                   <textarea
-                    className="w-100"
+                    className="w-100 left-margin-20"
                     rows="5"
                     name="about_us"
                     placeholder="Tell us about yourself"
@@ -295,9 +305,10 @@ const OfferCoursePage = props => {
                 </div>
               </div>
             )}
-            {activeStep === 4 && (
+            {
+            activeStep === 4 && (
               <div className="row mb-4">
-                <div className="col-12 col-md-6 pl-0">
+                <div className="col-12 col-md-6 pl-0 left-margin-20">
                   <label className="mb-2 offer-course-input-label" htmlFor="cell">
                     Two Step Verification
                 </label>
@@ -317,7 +328,7 @@ const OfferCoursePage = props => {
           </div>
 
 
-          <div className="col-12 col-md-7 p-0 actionsArea-bottom">
+          <div className="col-12 col-md-7 p-0 actionsArea-bottom stepper-button">
             <button
               className="primaryBtn cancel"
               onClick={handleBack}
@@ -345,7 +356,7 @@ const OfferCoursePage = props => {
             </span>
             </div>
           )}
-        </form>
+        {/* </form> */}
       </div>
     </div>
   );
@@ -369,3 +380,4 @@ let mapDispatchToProps = dispatch => {
 
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OfferCoursePage))
+

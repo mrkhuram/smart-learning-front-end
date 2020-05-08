@@ -3,7 +3,8 @@ import {
     COURSE_ADDED,
     ERROR,
     ALL_COURSES,
-    ADD_NEW_CHAPTER
+    ADD_NEW_CHAPTER,
+    ALL_QUESTIONS
 } from '../../constants'
 import history from '../../../components/Common/history'
 import * as routes from '../../../constants/routePaths'
@@ -15,7 +16,8 @@ let initState = {
     msg: null,
     err: null,
     allCourses: [],
-    allChapters: null
+    allChapters: null,
+    allQuestions: []
 }
 
 export default function (state = initState, action) {
@@ -51,20 +53,13 @@ export default function (state = initState, action) {
             allChapters: action.payload
         }
 
-        // case PROFILE:
+        case ALL_QUESTIONS:
 
-        //     console.log(action.payload.resp);
+            console.log(action.payload);
 
-        //     newState.userDetail = action.payload.resp
+            newState.allQuestions = action.payload
 
-        //     // if (action.payload.type === "institute") {
-        //     //     history.push(routes.RegisterAsInstitute)
-        //     // }
-        //     // if (action.payload.type === "instructor") {
-        //     //     history.push(routes.OfferCourse)
-        //     // }
-
-        //     break;
+            break;
 
 
         default:
