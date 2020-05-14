@@ -27,6 +27,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const authenticated = useSelector(state => state.auth.authenticated);
   console.log(authenticated);
 
+
   return (
 
     <Route
@@ -76,7 +77,8 @@ const App = (props) => {
 };
 
 let mapStateToProps = store => {
-
+  console.log(store);
+  
   return {
     userDetail: store.auth.userDetail
   }

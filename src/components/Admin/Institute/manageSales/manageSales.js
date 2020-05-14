@@ -129,8 +129,7 @@ const ManageSales = props => {
         </div>
         <div className="col-md-3">
           <Link
-          to="#" 
-          // to={routes.AddNewCourseInstitute}
+          to={routes.WithdrawInstitute}
           >
             <button className="add-course">
               withdraw

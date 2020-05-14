@@ -1,4 +1,4 @@
-.offer-course-cntnr {
+.event-management-wrapper {
   flex: 1;
   padding: 28px;
   margin: 10px;
@@ -89,26 +89,6 @@ input[type="file"] {
     display: none !important;
   }
 }
-.offer-course-step1-table {
-  th {
-    text-transform: capitalize;
-  }
-  th,
-  td {
-    border-top: 2px solid white;
-    font-size: 0.8rem;
-    vertical-align: middle;
-  }
-  thead {
-    background-color: #e1e1e1;
-    border-bottom: 3px solid white !important;
-  }
-  tbody {
-    tr {
-      background-color: #f3f3f3;
-    }
-  }
-}
 .select-label {
   color: #51ab59;
   font-size: 0.9rem;
@@ -131,7 +111,7 @@ input[type="file"] {
   margin: 15px 0px 0px 30px;
   cursor: pointer;
 }
-.table_course_management{
+.eventTable{
   margin-top: 30px;
   th {
     text-transform: capitalize;
@@ -147,25 +127,23 @@ input[type="file"] {
     vertical-align: middle;
     text-transform: capitalize;
     font-weight: 400;
+    font-size: 18px;
+    font-weight: 500;
   }
   thead {
     background-color: #51ab59;
     border-bottom: 3px solid white !important;
   }
   tbody {
-    text-align: left !important;
     tr {
       background-color: #f3f3f3;
       :first-child{
         font-weight: 600;
       }
+
     }
   }
-  .base-on{
-    font-size: 11px;
-    color: gray;
-    margin-left: 5px;
-  }
+  
   .active{
     background-color: #2e8d4b;
     border: none;
@@ -200,22 +178,6 @@ input[type="file"] {
     position: relative;
     top: 3px;  
   }
-  .discountBtn{
-    font-size: 12px;
-    text-transform: capitalize;
-    color: white;
-    border: none;
-    background-color: grey;
-    padding: 10px 15px;
-    border-radius: 5px;
-  }
-  .manage{
-    font-size: 11px;
-    display: block;
-    text-align: center;
-    width: 102px;
-  }
-  .colorYellow{
-    color: #efce4a;
-  }
+  
 }
+

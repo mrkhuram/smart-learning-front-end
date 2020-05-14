@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import Modal from "./Modal";
+// import Modal from "./Modal";
 import { Link } from "react-router-dom";
 // import * as router from '../../../../constants/routePaths'
 import { connect } from 'react-redux';
@@ -34,7 +34,7 @@ const PurpleSwitch = withStyles({
 
 
 
-const SalesTable = ({ headings, data, courses }) => {
+const ViewEventsTable = ({ headings, data, courses }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState({
@@ -49,14 +49,14 @@ const SalesTable = ({ headings, data, courses }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  
-  const setCourse = (course)=>{
+
+  const setCourse = (course) => {
     setDiscount(course)
     openModal()
   }
 
   const openModal = (course) => {
-    
+
     setOpen(true);
   };
   const handleCloseModal = () => {
@@ -77,22 +77,29 @@ const SalesTable = ({ headings, data, courses }) => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={anchorEl}
       onClose={handleMenuClose}
-      
+
     >
 
-      <Link 
-        
+      <Link
         to={{
           pathname: `/institute/course_management/view/${id.oneUser._id}`,
           // query: id.oneUser
         }}>
-        <MenuItem onClick={handleMenuClose}
-        style={{
-          color: 'black'
-        }}>View Course Details</MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          style={{
+            color: "black",
+            fontSize: 13
+          }}
+        >View Event Details</MenuItem>
       </Link>
 
-      <MenuItem onClick={handleMenuClose}>Edit Course</MenuItem>
+      <MenuItem
+        onClick={handleMenuClose}
+        style={{
+          color: "black",
+          fontSize: 13
+        }}>Edit Event</MenuItem>
 
     </Menu>
   );
@@ -101,13 +108,13 @@ const SalesTable = ({ headings, data, courses }) => {
 
 
     <>
-      <Modal
+      {/* <Modal
         open={open}
         handleCloseModal={handleCloseModal}
         onClose={handleCloseModal}
         course={discount}
-      />
-      <table className="table table_course_management table-borderless">
+      /> */}
+      <table className="table eventTable table-borderless">
         <thead>
           <tr>
             {headings.map((h, i) => (
@@ -119,77 +126,35 @@ const SalesTable = ({ headings, data, courses }) => {
         </thead>
         <tbody>
           {
-            courses ?
+            data ?
 
-              courses.map((d, i) => (
+              data.map((d, i) => (
                 <tr key={i}>
-                  <td>{d.empty}</td>
-
-                  <td>{d.english_tittle}</td>
-                  <td>{d.review}
-                    <i className="base-on">
-                      {d.based}
-                    </i>
-                  </td>
+                  <td>{d.date}</td>
+                  <td>{d.name}</td>
+                  <td>{d.mobile}</td>
+                  <td>{d.ticketID}</td>
+                  <td>{d.seats}</td>
+                  <td>{d.price}</td>
                   <td>
                     <span
-                      className={d.status === 1 ? "active" : "suspend"}
+                      className={d.status === "booked" ? "active" : "suspend"}
                     >
-                      {d.status === 1 ? "active" : "suspend"}
+                      {d.status === "booked" ? "booked" : "canceled"}
 
                     </span>
-                    <span className="switchBtn">
+                    {/* <span className="switchBtn">
 
                       <FormControlLabel
                         control={<PurpleSwitch
-                          checked={d.status === 1 ? true : false}
+                          checked={d.status === "active" ? true : false}
 
                           name="gilad" />}
 
                       />
-                    </span>
+                    </span> */}
                   </td>
-                  <td>
 
-                    <button className="discountBtn"
-                      onClick={() => { 
-                        setCourse(d)
-                       }}
-                    >
-                      Discounts
-                    </button>
-                    {
-                      d.status !== 1
-                        ?
-
-                        <a href="#"
-                          className="manage"
-                        >Manage</a>
-
-                        :
-
-                        null
-                    }
-
-                  </td>
-                  <td>
-
-                    <IconButton
-                      edge="end"
-                      aria-label="account of current user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
-                      onClick={handleProfileMenuOpen}
-
-                      color="inherit"
-                    >
-                      <MoreVertIcon onMouseOver={() => {
-                        setId({
-                          oneUser: d
-                        })
-                      }} />
-                    </IconButton>
-                  </td>
                 </tr>
               ))
               :
@@ -218,4 +183,4 @@ let mapDispatchToProps = dispatch => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SalesTable));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewEventsTable));

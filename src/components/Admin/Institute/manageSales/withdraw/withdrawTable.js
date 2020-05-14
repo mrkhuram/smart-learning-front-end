@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import Modal from "./Modal";
+// import Modal from "./Modal";
 import { Link } from "react-router-dom";
 // import * as router from '../../../../constants/routePaths'
 import { connect } from 'react-redux';
@@ -34,7 +34,7 @@ const PurpleSwitch = withStyles({
 
 
 
-const SalesTable = ({ headings, data, courses }) => {
+const WithdrawTable = ({ headings, data, courses }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState({
@@ -49,14 +49,14 @@ const SalesTable = ({ headings, data, courses }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  
-  const setCourse = (course)=>{
+
+  const setCourse = (course) => {
     setDiscount(course)
     openModal()
   }
 
   const openModal = (course) => {
-    
+
     setOpen(true);
   };
   const handleCloseModal = () => {
@@ -77,22 +77,24 @@ const SalesTable = ({ headings, data, courses }) => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={anchorEl}
       onClose={handleMenuClose}
-      
+
     >
 
-      <Link 
-        
+      <Link
         to={{
           pathname: `/institute/course_management/view/${id.oneUser._id}`,
           // query: id.oneUser
-        }}>
-        <MenuItem onClick={handleMenuClose}
+        }} 
         style={{
           color: 'black'
-        }}>View Course Details</MenuItem>
+        }}
+        >
+        <MenuItem onClick={handleMenuClose}>View Course Details</MenuItem>
       </Link>
 
       <MenuItem onClick={handleMenuClose}>Edit Course</MenuItem>
+      <MenuItem onClick={handleMenuClose}>View Invoice</MenuItem>
+
 
     </Menu>
   );
@@ -101,13 +103,13 @@ const SalesTable = ({ headings, data, courses }) => {
 
 
     <>
-      <Modal
+      {/* <Modal
         open={open}
         handleCloseModal={handleCloseModal}
         onClose={handleCloseModal}
         course={discount}
-      />
-      <table className="table table_course_management table-borderless">
+      /> */}
+      <table className="table table-withdraw table-borderless">
         <thead>
           <tr>
             {headings.map((h, i) => (
@@ -119,77 +121,31 @@ const SalesTable = ({ headings, data, courses }) => {
         </thead>
         <tbody>
           {
-            courses ?
+            data ?
 
-              courses.map((d, i) => (
+              data.map((d, i) => (
                 <tr key={i}>
-                  <td>{d.empty}</td>
+                  <td className="date-table">{d.date}</td>
 
-                  <td>{d.english_tittle}</td>
-                  <td>{d.review}
-                    <i className="base-on">
-                      {d.based}
-                    </i>
+                  <td className="font-500">
+                    {d.name}
                   </td>
-                  <td>
-                    <span
-                      className={d.status === 1 ? "active" : "suspend"}
-                    >
-                      {d.status === 1 ? "active" : "suspend"}
-
-                    </span>
-                    <span className="switchBtn">
-
-                      <FormControlLabel
-                        control={<PurpleSwitch
-                          checked={d.status === 1 ? true : false}
-
-                          name="gilad" />}
-
-                      />
-                    </span>
+                  <td className="font-500">
+                    {d.bank_detail}
                   </td>
-                  <td>
+                  <td className="font-500 status">
 
-                    <button className="discountBtn"
-                      onClick={() => { 
-                        setCourse(d)
-                       }}
-                    >
-                      Discounts
-                    </button>
-                    {
-                      d.status !== 1
-                        ?
-
-                        <a href="#"
-                          className="manage"
-                        >Manage</a>
-
-                        :
-
-                        null
-                    }
-
+                    {d.status}
                   </td>
-                  <td>
-
-                    <IconButton
-                      edge="end"
-                      aria-label="account of current user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
-                      onClick={handleProfileMenuOpen}
-
-                      color="inherit"
-                    >
-                      <MoreVertIcon onMouseOver={() => {
-                        setId({
-                          oneUser: d
-                        })
-                      }} />
-                    </IconButton>
+                  <td className="font-500 debt-color">
+                    
+                    {d.amount}
                   </td>
+                  {/* <td className="font-500 credit-color">
+                    
+                    {d.credit}
+                  </td> */}
+                
                 </tr>
               ))
               :
@@ -218,4 +174,4 @@ let mapDispatchToProps = dispatch => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SalesTable));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WithdrawTable));

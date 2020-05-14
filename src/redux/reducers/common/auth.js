@@ -10,11 +10,11 @@ import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
-    // institute_id: "5e9d4a5eab438002fc7d97df",
+    institute_id: "5eb3e297f96ebf00b0638bea",
     userDetail: null,
     msg: null,
     status: true, // if false profile gets under review
-    paid: true, // if false then user will see the payment page
+    paid: false, // if false then user will see the payment page 
     authenticated: true,
     feeStatus: null
 }
@@ -27,10 +27,19 @@ export default function (state = initState, action) {
         case REGISTER:
 
             if (action.payload.type === "institute") {
-                history.push(routes.RegisterAsInstitute)
+                newState.authenticated = true
+
+                setTimeout(() => {
+                    history.push(routes.RegisterAsInstitute)
+                    
+                }, 1000);
             }
             if (action.payload.type === "instructor") {
-                history.push(routes.RegisterAsInstructor)
+                newState.authenticated = true
+                setTimeout(() => {
+                    history.push(routes.RegisterAsInstructor)
+                    
+                }, 1000);
             }
 
 

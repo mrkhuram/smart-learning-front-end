@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import Modal from "./Modal";
+// import Modal from "./Modal";
 import { Link } from "react-router-dom";
 // import * as router from '../../../../constants/routePaths'
 import { connect } from 'react-redux';
@@ -34,7 +34,7 @@ const PurpleSwitch = withStyles({
 
 
 
-const SalesTable = ({ headings, data, courses }) => {
+const EventsTable = ({ headings, data, courses,events }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState({
@@ -48,15 +48,16 @@ const SalesTable = ({ headings, data, courses }) => {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [event, setEvent] = useState([]);
 
-  
-  const setCourse = (course)=>{
+
+  const setCourse = (course) => {
     setDiscount(course)
     openModal()
   }
 
   const openModal = (course) => {
-    
+
     setOpen(true);
   };
   const handleCloseModal = () => {
@@ -77,37 +78,58 @@ const SalesTable = ({ headings, data, courses }) => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={anchorEl}
       onClose={handleMenuClose}
-      
+
     >
 
-      <Link 
-        
+      <Link
         to={{
-          pathname: `/institute/course_management/view/${id.oneUser._id}`,
+          pathname: `/institute/events/view/${id.oneUser._id}`,
+          
           // query: id.oneUser
         }}>
-        <MenuItem onClick={handleMenuClose}
-        style={{
-          color: 'black'
-        }}>View Course Details</MenuItem>
+        <MenuItem
+          onClick={handleMenuClose}
+          style={{
+            color: "black",
+            fontSize: 13
+          }}
+        >View Event Details</MenuItem>
       </Link>
 
-      <MenuItem onClick={handleMenuClose}>Edit Course</MenuItem>
+      <Link
+        to={{
+          pathname: `/institute/event/edit/${id.oneUser._id}`
+        }}
+      >
+        <MenuItem
+          onClick={handleMenuClose}
+          style={{
+            color: "black",
+            fontSize: 13
+          }}>Edit Event</MenuItem>
+      </Link>
 
     </Menu>
   );
+  
+  useEffect(()=>{
+    setEvent(events)
+    
+  },[events])
 
+  console.log(id);
+  
   return (
 
 
     <>
-      <Modal
+      {/* <Modal
         open={open}
         handleCloseModal={handleCloseModal}
         onClose={handleCloseModal}
         course={discount}
-      />
-      <table className="table table_course_management table-borderless">
+      /> */}
+      <table className="table eventTable table-borderless">
         <thead>
           <tr>
             {headings.map((h, i) => (
@@ -119,23 +141,22 @@ const SalesTable = ({ headings, data, courses }) => {
         </thead>
         <tbody>
           {
-            courses ?
+            event.length > 0 ?
 
-              courses.map((d, i) => (
+              event.map((d, i) => (
                 <tr key={i}>
-                  <td>{d.empty}</td>
-
+                  <td></td>
                   <td>{d.english_tittle}</td>
-                  <td>{d.review}
-                    <i className="base-on">
-                      {d.based}
-                    </i>
-                  </td>
+                  <td>{d.date}</td>
+                  <td>{d.time}</td>
+                  <td>{d.total_seats}</td>
+                  <td>{d.price}</td>
+                  <td>{d.total_seats - d.remaining_seats}</td>
                   <td>
                     <span
                       className={d.status === 1 ? "active" : "suspend"}
                     >
-                      {d.status === 1 ? "active" : "suspend"}
+                      {d.status === 1 ? "active" : "canceled"}
 
                     </span>
                     <span className="switchBtn">
@@ -143,35 +164,12 @@ const SalesTable = ({ headings, data, courses }) => {
                       <FormControlLabel
                         control={<PurpleSwitch
                           checked={d.status === 1 ? true : false}
-
                           name="gilad" />}
 
                       />
                     </span>
                   </td>
-                  <td>
 
-                    <button className="discountBtn"
-                      onClick={() => { 
-                        setCourse(d)
-                       }}
-                    >
-                      Discounts
-                    </button>
-                    {
-                      d.status !== 1
-                        ?
-
-                        <a href="#"
-                          className="manage"
-                        >Manage</a>
-
-                        :
-
-                        null
-                    }
-
-                  </td>
                   <td>
 
                     <IconButton
@@ -182,19 +180,20 @@ const SalesTable = ({ headings, data, courses }) => {
                       onClick={handleProfileMenuOpen}
 
                       color="inherit"
-                    >
-                      <MoreVertIcon onMouseOver={() => {
+                      onMouseOver={() => {
                         setId({
                           oneUser: d
                         })
-                      }} />
+                      }}
+                    >
+                      <MoreVertIcon  />
                     </IconButton>
                   </td>
                 </tr>
               ))
               :
               <div className="nothing_to_show">
-                <h4>Nothing to Show</h4>
+                <h4>Loading...</h4>
               </div>
           }
           {renderMenu}
@@ -208,7 +207,7 @@ const SalesTable = ({ headings, data, courses }) => {
 let mapStateToProps = store => {
 
   return {
-    courses: store.CourseReducer.allCourses
+    events: store.EventReducer.events
   }
 }
 let mapDispatchToProps = dispatch => {
@@ -218,4 +217,4 @@ let mapDispatchToProps = dispatch => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SalesTable));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventsTable));

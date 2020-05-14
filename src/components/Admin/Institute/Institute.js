@@ -12,6 +12,7 @@ import home from "../adminAssets/home.png";
 import user from "../adminAssets/user.png";
 import plusCircle from "../adminAssets/plus-circle.png";
 import stock from "../adminAssets/stock.png";
+import calender from "../adminAssets/calender.png";
 import CourseManagement from './courseManagement/courseManagement'
 import AddNewCourse from "./courseManagement/addNewCourse";
 import ViewCourseDetails from './courseManagement/viewCourseDetails'
@@ -19,7 +20,11 @@ import PayFee from './Payment/PayFeePage'
 import ProfileUnderReview from './ProUnderReview/ProfileUnderReview'
 import DeshboardInstitute from './Deshboard/deshboardInstitute';
 import ManageSales from './manageSales/manageSales'
-
+import Withdraw from './manageSales/withdraw/withdraw'
+import EventManagement from './events/eventManagement'
+import AddNewEventStepper from './events/addEvent/addEvent'
+import ViewEvent from './events/viewEvent/viewEvent'
+import EditEvent from "./events/editEvent/editEvent";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -47,7 +52,7 @@ const InstituteDeshboard = ({ match }) => {
   const [focused, setFocused] = useState("home");
   const status = useSelector(state => state.auth.userDetail ? state.auth.userDetail.status : 3)
   const feeStatus = useSelector(state => state.auth.userDetail ? state.auth.userDetail.fee.status : null)
-
+  // const status = 1  
   useEffect(() => {
     document.getElementById(focused).focus();
   }, [focused])
@@ -98,17 +103,21 @@ const InstituteDeshboard = ({ match }) => {
               <img src={stock} alt="stock-icon" id="stock" onClick={() => setFocused("stock")} />
             </Link>
           </li>
-          <li></li>
+          <li>
+            <Link to={routes.EventManagement}>
+              <img src={calender} alt="calender-icon" id="calender" onClick={() => setFocused("calender")} />
+            </Link>
+          </li>
           <li></li>
           <li></li>
           <li></li>
         </ul>
         <Suspense >
           <Switch>
-            <PrivateRoute 
-            exact 
-            path={routes.InstituteHome} 
-            component={DeshboardInstitute} 
+            <PrivateRoute
+              exact
+              path={routes.InstituteHome}
+              component={DeshboardInstitute}
             />
             <Route
               exact
@@ -150,6 +159,31 @@ const InstituteDeshboard = ({ match }) => {
               exact
               path={routes.PayFee}
               component={PayFee}
+            />
+            <PrivateRoute
+              exact
+              path={routes.WithdrawInstitute}
+              component={Withdraw}
+            />
+            <PrivateRoute
+              exact
+              path={routes.EventManagement}
+              component={EventManagement}
+            />
+            <PrivateRoute
+              exact
+              path={routes.AddNewEvent}
+              component={AddNewEventStepper}
+            />
+            <PrivateRoute
+              exact
+              path={routes.ViewEventsInstitute}
+              component={ViewEvent}
+            />
+            <PrivateRoute
+              exact
+              path={routes.EditEventInstitute}
+              component={EditEvent}
             />
             <Route
               path="*"
