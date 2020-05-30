@@ -10,7 +10,7 @@ import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
-    institute_id: "5eb3e297f96ebf00b0638bea",
+    user_id: "5ecf507261e72504dc9d866e", // temporary id added for testing
     userDetail: null,
     msg: null,
     status: true, // if false profile gets under review
@@ -41,7 +41,13 @@ export default function (state = initState, action) {
                     
                 }, 1000);
             }
-
+            if (action.payload.type === "freelancer") {
+                newState.authenticated = true
+                setTimeout(() => {
+                    history.push(routes.freelancerDashboard)
+                    
+                }, 1000);
+            }
 
             newState.userDetail = action.payload.resp.userData
 
@@ -58,7 +64,7 @@ export default function (state = initState, action) {
 
             console.log(action.payload.resp.resp);
             newState.authenticated = true
-            newState.Institute_id = action.payload.resp.resp._id
+            newState.user_id = action.payload.resp.resp._id
             newState.userDetail = action.payload.resp.resp
             setTimeout(() => {
                 if (action.payload.type === "institute") {
@@ -77,6 +83,13 @@ export default function (state = initState, action) {
                         history.push(routes.RegisterAsInstructor)
                     }
 
+                }
+                if (action.payload.type === "freelancer") {
+                    newState.authenticated = true
+                    setTimeout(() => {
+                        history.push(routes.freelancerDashboard)
+                        
+                    }, 1000);
                 }
 
             });

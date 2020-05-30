@@ -29,7 +29,7 @@ export default function Service() {
   const classes = useStyles();
 
   return (
-    <Link to={routes.Service}>
+    <Link to={routes.OneService}>
       <Card className={classes.root}>
         <CardMedia
           component="img"

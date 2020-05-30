@@ -1,7 +1,14 @@
 export const Home = "/";
+export const SearchPage = "/search-details";
+export const AllDevelopmentCourses = "/courses/development";
+export const AllNewCourses = "/courses/all";
+export const AllTrendingCourses = "/courses/trending";
+export const AllServices = "/services/all";
+export const AllEvents = "/events/all";
+export const OneEvent = "/events/single";
 export const CourseDetail ="/course-detail";
 export const User = "/user/profile";
-export const Service = "/service";
+export const OneService = "/service";
 
 export const BecomeFreelancer = "/become-freelancer";
 
@@ -25,6 +32,7 @@ export const EventManagement = "/institute/events-details";
 export const AddNewEvent = "/institute/events/add/new"
 export const ViewEventsInstitute = "/institute/events/view/:id"
 export const EditEventInstitute = "/institute/event/edit/:id"
+export const paymentProcessing = "/institute/payment-processing"
 
 
 // instructor panel
@@ -43,6 +51,31 @@ export const ProfileUnderReviewInstructor = "/instructor/review_profile";
 export const PayFeeInstructor = "/instructor/pay_registration_fee";
 export const WithdrawInstructor = "/instructor/sales/withdraw";
 
+// Freelancer panel
 
+export const FreelancerPanel = "/freelancer-panel";
+export const freelancerDashboard = "/freelancer-panel/dashboard";
+export const freelancerManageGigs = "/freelancer-panel/manage_gigs";
+export const freelancerEditGig = "/freelancer-panel/manage_gigs/edit/:id";
 
+export const freelancerService = "/freelancer-panel/offer-service";
+export const CourseManagementFreelancer = "/freelancer-panel/course_management";
+export const OfferServiceFreelancer = "/freelancer-panel/offer-service";
+export const freelancerManageSales = "/freelancer-panel/manage-sales";
+export const freelancerWithDraw = "/freelancer-panel/manage-sales/withdraw";
 
+export const ViewCourseDetailsFreelancer = "/freelancer-panel/course_management/view/:id";
+export const freelancerManageOrders = "/freelancer-panel/manage-orders"
+export const freelancerViewOrderDetailRevision = "/freelancer-panel/manage-orders/view-details/revision"
+export const freelancerViewOrderDetailRunning = "/freelancer-panel/manage-orders/view-details/running"
+export const freelancerViewOrderDetailNew = "/freelancer-panel/manage-orders/view-details/new"
+
+// Customer Panel 
+
+export const customerDeshboard = "/customer";
+export const CustomerMyCourses = "/customer/my-courses";
+export const CustomerMyServices = "/customer/my-services";
+export const CustomerMyEvents = "/customer/my-events";
+export const CustomerInProcessDetails = "/customer/my-events/in-process/details";
+export const CustomerCompletedOrderDetails = "/customer/my-events/completed/details";
+export const CustomerCanceledOrderDetails = "/customer/my-events/canceled/details";

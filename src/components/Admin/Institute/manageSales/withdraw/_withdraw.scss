@@ -1,4 +1,4 @@
-.withdrawal-wrapper {
+.withdrawal-wrapper-institute {
   flex: 1;
   padding: 28px;
   margin: 10px;
@@ -107,6 +107,7 @@
       padding: 25px 20px;
       border-radius: 5px;
       display: flex;
+      cursor: pointer;
       .bank-logo{
           height: 50px;
           margin: 20px 10px 0px 10px;
@@ -124,9 +125,8 @@
     }
   }
 
-}
-.withdraw-transitions{
-  font-size: 1.5em;
+  .withdraw-transitions{
+    font-size: 1.5em;
   font-weight: 500;
   color: #3a3a3a;
   margin: 50px 0px 0px;
@@ -142,28 +142,28 @@
     border: none;
     font-weight: 500;
   }
-
-.select-label {
-  color: #51ab59;
-  font-size: 0.9rem;
-  margin-bottom: 12px !important;
-}
-
-
-.table_course_management{
-  margin-top: 30px;
-  th {
-    text-transform: capitalize;
-    color: white;
-    font-weight: 600;
-    padding: 15px;
-    font-size: 18px !important;
+  
+  .select-label {
+    color: #51ab59;
+    font-size: 0.9rem;
+    margin-bottom: 12px !important;
   }
-  th,
-  td {
-    border-top: 2px solid white;
-    font-size: 1.2rem;
-    vertical-align: middle;
+  
+  
+  .table_course_management{
+    margin-top: 30px;
+    th {
+      text-transform: capitalize;
+      color: white;
+      font-weight: 600;
+      padding: 15px;
+      font-size: 18px !important;
+    }
+    th,
+    td {
+      border-top: 2px solid white;
+      font-size: 1.2rem;
+      vertical-align: middle;
     text-transform: capitalize;
     font-weight: 400;
   }
@@ -191,16 +191,18 @@
       font-weight: 500;
     }
     // .more-icon{
-    //   color: #cccccc;
-    //   height: 20px;
-    // }
-    .debt-color{
-      margin-left: 10px;
-      color: red;
+      //   color: #cccccc;
+      //   height: 20px;
+      // }
+      .debt-color{
+        margin-left: 10px;
+        color: red;
+      }
+      .credit-color{
+        color: #51ab59;
+      }
     }
-    .credit-color{
-      color: #51ab59;
-    }
+    
   }
- 
+
 }

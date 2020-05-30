@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,12 +9,13 @@ import IconButton from '@material-ui/core/IconButton';
 // import Modal from "./Modal";
 import { Link } from "react-router-dom";
 // import * as router from '../../../../constants/routePaths'
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { getAllEvents,updateEvent } from '../../../../../redux/actions/institute/eventsAction'
 
 
 const PurpleSwitch = withStyles({
@@ -38,8 +39,8 @@ const PurpleSwitch = withStyles({
 
 
 
-const ViewEventsTable = ({ headings, data, courses }) => {
-
+const ViewEventsTable = props => {
+  const { headings, data, courses, events, getAllEvents,updateEvent } = props
   const [state, setState] = useState({
     event_name: "Intro To Pysics part 1 with notes",
     event_desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem dicta asperiores odio blanditiis dignissimos aut necessitatibus iusto voluptatibus architecto quibusdam repudiandae sint animi expedita labore, soluta nihil temporibus exercitationem corrupti!',
@@ -49,18 +50,30 @@ const ViewEventsTable = ({ headings, data, courses }) => {
     event_price: "AD 150"
   })
 
+  const [event, setEvent] = useState({
+
+  });
 
   const onChangeHandler = e => {
     let name = e.target.name
     let val = e.target.value
 
-    setState({
-      ...state,
+    if(name === "picture"){
+      let img = document.getElementById("event_img_id")
+      img.src = URL.createObjectURL( e.target.files[0])
+      setEvent({
+        ...event,
+        name : e.target.files[0]
+      })
+      return true
+    }
+    setEvent({
+      ...event,
       [name]: val
     })
   }
 
-
+  
   const edit_image = e => {
     let input = document.getElementById('event_img')
     console.log(input);
@@ -100,7 +113,7 @@ const ViewEventsTable = ({ headings, data, courses }) => {
     let name = document.getElementById('previous_date')
     name.classList.add("hidden")
   }
-  
+
   const editTime = e => {
     let input = document.getElementById('input-time')
     console.log(input);
@@ -108,8 +121,17 @@ const ViewEventsTable = ({ headings, data, courses }) => {
     let name = document.getElementById('previous_time')
     name.classList.add("hidden")
   }
+  const editTimeStop = e => {
+    console.log('working');
+    
+    let input = document.getElementById('input-time')
+    console.log(input);
+    input.classList.add("hidden")
+    let name = document.getElementById('previous_time')
+    name.classList.remove("hidden")
+  }
 
-  
+
   const editPrice = e => {
     let input = document.getElementById('input-price')
     console.log(input);
@@ -117,6 +139,74 @@ const ViewEventsTable = ({ headings, data, courses }) => {
     let name = document.getElementById('previous_price')
     name.classList.add("hidden")
   }
+
+  // const { events } = props
+
+
+  let institute_id = useSelector(state => state.auth.user_id)
+  // fire when component will mount
+  useEffect(() => {
+    console.log(institute_id);
+
+    getAllEvents({ institute_id: institute_id })
+  }, [])
+
+  // fire when component will recieve the props
+  useEffect(() => {
+    setEvent(events)
+
+  }, [events])
+
+  console.log(event);
+
+
+
+  React.useEffect(() => {
+    console.log(events, props.match.params.id);
+    let id = props.match.params.id
+    let result = events.filter((item, key) => {
+
+      return item._id !== id ?
+        console.log(item)
+        : 'Undefined ID'
+    })
+    // console.log(result);
+    if(result.length>0){
+
+      delete result[0]._id
+      delete result[0].__v
+    }
+      setEvent({
+      ...event,
+      event_id: id,
+      ...result[0]
+    })
+
+
+
+  }, [events])
+  console.log(event);
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let d = new Date(event.date ? event.date : null);
+  let dayName = days[d.getDay()];
+
+
+
+  var timeString = event.time ? event.time : "18:00:00";
+  var H = +timeString.substr(0, 2);
+  var h = H % 12 || 12;
+  var ampm = (H < 12 || H === 24) ? "AM" : "PM";
+  timeString = h + timeString.substr(2, 3) + ampm;
+  // setEvent({
+  //   time: timeString
+  // })
+  console.log(timeString);
+  
+  const updateData = e =>{
+    console.log(event);
+    updateEvent(event)
+  }
+
   return (
     <>
       <div className="edit-event-wrapper">
@@ -126,13 +216,16 @@ const ViewEventsTable = ({ headings, data, courses }) => {
           </div>
           <div className="img-outer">
             <label htmlFor="event_poster">
-              <img src="https://mackayexpo.com.au/marketing-tools/MLE20-Exhibitor-Banner-600x270.jpg"
+              {/* {event.picture ? '../../../../../../../../smart learner backend/smart-learner-backend/static/uploads/' + event.picture : ''} */}
+              <img src= {event.picture ? '../static/uploads/' + event.picture : ''}
                 alt="event_image"
                 className="event_image "
-                id="event_img_id" />
+                id="event_img_id"
+                />
             </label>
             <input type="file" accept="image/*" className="hidden"
-              id="event_img"
+              id="event_img" name="picture"
+              onChange={onChangeHandler}
             />
           </div>
         </div>
@@ -147,13 +240,13 @@ const ViewEventsTable = ({ headings, data, courses }) => {
             </div>
             <div className="edit-name">
               <span id="previous-name">
-                {state.event_name}
+                {event.english_tittle ? event.english_tittle : ''}
               </span>
               <input type="text"
                 className="addNewName hidden"
                 id="input-name"
-                name="event_name"
-                value={state.event_name}
+                name="english_tittle"
+                value={event.english_tittle}
                 onChange={onChangeHandler}
               />
             </div>
@@ -164,13 +257,15 @@ const ViewEventsTable = ({ headings, data, courses }) => {
             </div>
             <div className="edit-name">
               <span id="previous-desc">
-                {state.event_desc}
+                {event.english_description ? event.english_description : ''}
+
               </span>
               <textarea type="text"
                 className="addNewName hidden"
                 id="input-desc"
-                name="event_desc"
-                value={state.event_desc}
+                name="english_description"
+                value={event.english_description}
+
                 onChange={onChangeHandler}
               />
 
@@ -183,12 +278,15 @@ const ViewEventsTable = ({ headings, data, courses }) => {
             </div>
             <div className="edit-name">
               Venue:
-              <span id="previous_venue">{state.event_venue} </span>
+              <span id="previous_venue">
+                {event.english_venue ? " " + event.english_venue : ''}
+              </span>
               <input type="text"
                 className="addNewName hidden"
                 id="input-venue"
-                name="event_venue"
-                value={state.event_venue}
+                name="english_venue"
+                value={event.english_venue}
+
                 onChange={onChangeHandler}
               />
             </div>
@@ -203,55 +301,59 @@ const ViewEventsTable = ({ headings, data, courses }) => {
             </div>
             <div className="edit-name">
 
-              <span id="previous_date">{state.event_date} </span>
+              <span id="previous_date">
+                {event.date ? dayName + " " + event.date : ''}
+              </span>
               <input type="text"
                 className="addNewName hidden"
                 id="input-date"
-                name="event_date"
-                value={state.event_date}
+                name="date"
+                value={event.date}
                 onChange={onChangeHandler}
               />
             </div>
           </div>
           <div className="edit-desc-wrapper">
             <div className="edit-icon">
-              <FontAwesomeIcon icon={faEdit} className="edit-icon-image" onClick={editTime}/>
+              <FontAwesomeIcon icon={faEdit} className="edit-icon-image" onClick={editTime} />
             </div>
             <div className="edit-name">
-             
-              <span id="previous_time">{state.event_time} </span>
+
+              <span id="previous_time">{event.time ? event.time : ""} </span>
               <input type="text"
                 className="addNewName hidden"
                 id="input-time"
-                name="event_time"
-                value={state.event_time}
+                name="time"
+                value={event.time}
                 onChange={onChangeHandler}
+                // onBlur={editTimeStop}
               />
             </div>
           </div>
           <div className="edit-venue-wrapper">
             <div className="edit-icon">
-              <FontAwesomeIcon icon={faEdit} className="edit-icon-image" onClick={editPrice}/>
+              <FontAwesomeIcon icon={faEdit} className="edit-icon-image" onClick={editPrice} />
             </div>
             <div className="edit-name">
-              
-              <span id="previous_price">{state.event_price} </span>
+
+              <span id="previous_price">{event.price ? " AD " +event.price : ""}  </span>
               <input type="text"
                 className="addNewName hidden"
                 id="input-price"
-                name="event_price"
-                value={state.event_price}
+                name="price"
+                value={event.price} 
                 onChange={onChangeHandler}
               />
-                    </div>
+            </div>
           </div>
         </div>
       </div>
       <div className="col-12">
         <div className="saved-btn-wrapper">
-          <button className="saved-edit-setting">
+          <button className="saved-edit-setting"
+          onClick={updateData}>
             Save
-              </button>
+          </button>
         </div>
       </div>
     </>
@@ -262,14 +364,8 @@ const ViewEventsTable = ({ headings, data, courses }) => {
 let mapStateToProps = store => {
 
   return {
-    courses: store.CourseReducer.allCourses
-  }
-}
-let mapDispatchToProps = dispatch => {
-  return {
-
+    events: store.EventReducer.events
   }
 }
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewEventsTable));
+export default withRouter(connect(mapStateToProps, { getAllEvents,updateEvent })(ViewEventsTable));

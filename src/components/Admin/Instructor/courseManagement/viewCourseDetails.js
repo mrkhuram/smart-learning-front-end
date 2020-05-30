@@ -435,7 +435,8 @@ const ViewCourseDetails = props => {
         addChapter,
         updateOneTopic,
         getAllQuestions,
-        newQuestions
+        newQuestions,
+        auth
     } = props
     const [state, setState] = useState({
         english_name: null,
@@ -500,13 +501,13 @@ const ViewCourseDetails = props => {
 
     let newObj = {
         course_id: course_id,
-        provider_id: chapterRedu.institute_id
+        provider_id: auth.user_id
     }
 
     useEffect(() => {
 
 
-        getCourses({ institute_id: chapterRedu.institute_id }, "institute")
+        getCourses({ institute_id: auth.user_id }, "institute")
 
         getAllQuestions({ course_id: props.match.params.id })
 
@@ -561,7 +562,7 @@ const ViewCourseDetails = props => {
         let data = {
             ...state,
             id,
-            provider_id: chapterRedu.institute_id
+            provider_id: auth.user_id
         }
         updateOneTopic(data)
 
@@ -804,6 +805,7 @@ let mapStateToProps = store => {
 
 
     return {
+        auth: store.auth,
         chapterRedu: store.ChapterReducer,
         newCourses: store.CourseReducer.allCourses,
         courseDetailsReducer: store.CourseReducer,

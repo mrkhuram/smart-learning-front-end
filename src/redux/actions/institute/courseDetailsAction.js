@@ -22,7 +22,7 @@ export const addNewCourse = (body,user)=>{
         // console.log(body,user);
         const config = {
             headers: {
-                'content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
 

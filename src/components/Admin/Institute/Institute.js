@@ -18,6 +18,7 @@ import AddNewCourse from "./courseManagement/addNewCourse";
 import ViewCourseDetails from './courseManagement/viewCourseDetails'
 import PayFee from './Payment/PayFeePage'
 import ProfileUnderReview from './ProUnderReview/ProfileUnderReview'
+import PaymentProcessing from './ProUnderReview/PaymentProcessing'
 import DeshboardInstitute from './Deshboard/deshboardInstitute';
 import ManageSales from './manageSales/manageSales'
 import Withdraw from './manageSales/withdraw/withdraw'
@@ -185,6 +186,7 @@ const InstituteDeshboard = ({ match }) => {
               path={routes.EditEventInstitute}
               component={EditEvent}
             />
+             <Route exact path={routes.paymentProcessing} component={PaymentProcessing} />
             <Route
               path="*"
               component={() => <div>No page found</div>}

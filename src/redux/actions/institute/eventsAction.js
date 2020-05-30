@@ -8,12 +8,12 @@ import {
 } from '../../constants'
 import {toast} from 'react-toastify'
 // import {modelForSuccess} from '../../../components/Admin/Institute/events/addEvent/addEvent'
+import store from '../../store'
 
 export const getAllEvents = (body)=>{
     return dispatch =>{
  
         // events will be get by the institute id. 
-
         axios.post(baseURL + '/api/institute/event/getmanyevents' , body)
         .then(resp => {
             
@@ -45,7 +45,6 @@ export const addNewEvent = (body)=>{
         for(var item in body){            
             
             formData.append(item, body[item]);
-            console.log(item , body[item]);
             
         }
 
@@ -63,7 +62,49 @@ export const addNewEvent = (body)=>{
             }    
         })
         .catch(err => {
-            toast.error("Event Successfuly added")
+            toast.error("Event added failed")
+            dispatch({
+                type: EVENT_ADDED_ERROR,
+                payload: err
+            })
+        })
+
+    }
+}
+
+
+export const updateEvent = (body)=>{
+
+    return dispatch =>{
+        let institute_id = store.getState().auth.institute_id
+  
+        let formData = new FormData();        
+
+        for(var item in body){            
+            
+            formData.append(item, body[item]);
+            // console.log(item , body[item]);
+            
+        }
+        console.log(body);
+        
+
+        axios.post(baseURL + '/api/institute/event/updateevent' , formData)
+        .then(resp => {
+            
+            if(resp.status === 200){
+                toast.success("Event Successfuly updated")
+                dispatch({
+                    type: EVENT_ADDED_SUCCESS,
+                    payload: resp.data.data
+                })
+                // modelForSuccess()
+            }    
+        }).then(()=>{
+            dispatch(getAllEvents({institute_id}))
+        })
+        .catch(err => {
+            toast.error("Event updation Failed")
             dispatch({
                 type: EVENT_ADDED_ERROR,
                 payload: err

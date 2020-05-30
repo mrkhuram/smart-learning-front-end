@@ -80,10 +80,10 @@ const InstituteDeshboard = props => {
     })
 
     return (
-        <div className="deshboard-wrapper">
+        <div className="deshboard-wrapper-institute"> 
             <div className="row">
                 <div className="col-5">
-                    <EnrolledStudent />
+                    <EnrolledStudent />  
                 </div>
                 <div className="col-7">
                     <Reviews />

@@ -4,6 +4,7 @@ import { Router, Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import * as routes from "./constants/routePaths";
 import HomePage from "./components/HomePage/HomePage";
+import SearchPage from "./components/search/search";
 import NotFoundPage from "./components/Common/NotFoundPage";
 import CourseDetailPage from "./components/CourseDetail/CourseDetailPage";
 import UserProfile from "./components/UserPage/UserPage";
@@ -15,12 +16,18 @@ import Instructor from "./components/Admin/Instructor/Instructor";
 // import CourseManagements from "./components/Admin/courseManagement/courseManagement";
 import history from './components/Common/history';
 import { connect } from 'react-redux';
-// import {loadProfile } from './redux/actions/auth' 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
-// import './App.css';
+import FreelancerPanel from "./components/FreelancerPanel/FreelancerPanel";
+// import {loadProfile } from './redux/actions/auth'
+import AllCourses from './components/AllDevelopment/AllCourse'
+import AllNewCourses from './components/AllNewCourses/AllNewCourse'
+import AllTrendingCourses from './components/AllTrendingCourses/TrendingCourse'
+import AllServices from './components/AllServices/AllServices'
+import OneService from './components/OneService/OneService'
+import AllEvents from './components/AllEvents/AllEvents'
+import OneEvent from './components/OneEvent/OneEvent'
+import CustomerPanel from './components/CustomerPanel/CustomerPanel'
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -64,11 +71,23 @@ const App = (props) => {
         <Route exact path={routes.Home} component={HomePage} />
         <Route exact path={routes.CourseDetail} component={CourseDetailPage} />
         <Route exact path={routes.User} component={UserProfile} />
-        <Route exact path={routes.Service} component={ServicePage} />
+        {/* <Route exact path={routes.Service} component={ServicePage} /> */}
         <Route exact path={routes.BecomeFreelancer} component={BecomeFreelancerPage} />
         {/* <Route exact path={routes.CourseManagement} component={CourseManagements} /> */}
         <PrivateRoute path={routes.Institute} component={Institute} />
         <PrivateRoute path={routes.Instructor} component={Instructor} />
+        <Route path={routes.FreelancerPanel} component={FreelancerPanel} />
+        <Route path={routes.customerDeshboard} component={CustomerPanel} />
+
+
+        <Route path={routes.SearchPage} component={SearchPage} />
+        <Route path={routes.AllDevelopmentCourses} component={AllCourses} />
+        <Route path={routes.AllNewCourses} component={AllNewCourses} />
+        <Route path={routes.AllTrendingCourses} component={AllTrendingCourses} />
+        <Route path={routes.AllServices} component={AllServices} />
+        <Route path={routes.OneService} component={OneService} />
+        <Route path={routes.AllEvents} component={AllEvents} /> 
+        <Route path={routes.OneEvent} component={OneEvent} /> 
 
         <Route component={NotFoundPage} />
       </Switch>

@@ -96,11 +96,31 @@ const Withdraw = props => {
 
   ]
 
-
+ const addBankAcc = e =>{
+  fetch("/get-oauth-link", {
+    method: "GET", 
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.url) {
+        window.location = data.url;
+        console.log(data.url);
+        
+      } else {
+        // elmButton.removeAttribute("disabled");
+        // elmButton.textContent = "<Something went wrong>";
+        console.log("data", data);
+      }
+    });
+   
+ }
 
 
   return (
-    <div className="withdrawal-wrapper">
+    <div className="withdrawal-wrapper-institute">
       <div className="row">
         <div className="col-md-7">
           <p className="courseHeading">
@@ -163,7 +183,7 @@ const Withdraw = props => {
         </div>
 
         <div className="col-3">
-          <div className="total-sale-wrapper">
+          <div className="total-sale-wrapper" title="Add Bank Account" onClick={addBankAcc}>
 
             <img src={require('../../../../../assets/Images/bank-logo.png')} alt="" className="bank-logo" />
             <p className="sale-amount">

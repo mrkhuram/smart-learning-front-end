@@ -45,7 +45,7 @@ const EventManagement = props => {
     ""
 
   ] 
-  let institute_id = useSelector(state =>state.auth.institute_id )
+  let institute_id = useSelector(state =>state.auth.user_id )
   // fire when component will mount
   useEffect(()=>{
     console.log(institute_id);

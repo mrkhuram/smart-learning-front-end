@@ -9,4 +9,4 @@ const Select = ({ category, onChangeHandler, type }) => (
     <option value="University">University</option>
   </select>
 );
-export default Select;
+export default Select; 

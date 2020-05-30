@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import * as routes from "../../constants/routePaths";
 import "./scss/_navBar.scss";
-
+import Modal from "../HomePage/Modal";
+ 
 const TopNavBar = (props) => {
-  const { switchModal, openModal } = props;
-  let history = useHistory(); 
+  // const { switchModal } = props;
+  let history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [modelType, setModelType] = useState("signIn");
+
+  const openModal = () => {
+    setOpen(true);
+  };
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+  const handleSwitchModal = type => {
+    setModelType(type);
+  };
+
+
+
   return (
     <nav className="custom-navbar navbar navbar-expand-lg navbar-light">
+
+
+      <Modal
+        type={modelType}
+        open={open}
+        handleCloseModal={handleCloseModal}
+        switchModal={handleSwitchModal}
+      />
       <Link to={routes.Home} className="navbar-brand logo-text">
         <span>SMART</span> LEARNERS
       </Link>
       <button
         className="navbar-toggler"
-        type="button" 
+        type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
@@ -47,21 +71,21 @@ const TopNavBar = (props) => {
               history.push("/become-freelancer")
             }}
           >
-            BECOME FREELANCER
+            Become Partners
           </button>
           <button
             className="sign-btn mr-2"
             onClick={() => {
-              switchModal("signIn");
+              handleSwitchModal("signIn");
               openModal();
             }}
           >
-            Sign In 
+            Sign In
           </button>
           <button
             className="sign-btn"
             onClick={() => {
-              switchModal("signUp");
+              handleSwitchModal("signUp");
               openModal();
             }}
           >

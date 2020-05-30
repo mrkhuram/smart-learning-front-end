@@ -49,7 +49,7 @@ const EnrolledStudent = props => {
     })
 
     return (
-        <div className="enrolled-wrapper">
+        <div className="enrolled-wrapper-institute"> 
             <div className="enrolled-outing">
                 <p className="enrolled-heading">
                     Enrolled Students
@@ -70,7 +70,10 @@ const EnrolledStudent = props => {
                 {students.map((item, index) => {
                     return <li className="list-items" key={index}>
                         <div className="img-wrapper">
-                            <img src="https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_thumb,g_face,r_max/face_left.png" alt="" />
+                            <img 
+                            src="https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_thumb,g_face,r_max/face_left.png" 
+                            alt="" 
+                            />
                         </div>
                         <div className="content-list-item">
                             <p className="name">

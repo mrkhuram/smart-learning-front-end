@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./_edit_event.scss";
 
-import EditEvent from "./editEventForm";
+import EditEventForm from "./editEventForm";
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom'
 import * as routes from '../../../../../constants/routePaths'
 
 
-const ViewEvent = props => {
-  const { getCourses, userDetail } = props
+const EditEvent = props => {
+  const { events } = props
 
   const [activeStep, setActiveStep] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,15 +29,29 @@ const ViewEvent = props => {
     other: null,
     otp: null
   })
-  const [courses, setCourses] = useState({
-    all: null
+  const [event, setEvent] = useState({
+   
   });
 
 
-  React.useEffect(() => {
-    // if(!userDetail.allCourses){
-    // }
-  }, [])
+  // React.useEffect(() => {
+  //   console.log(events,props.match.params.id);
+  //   let id = props.match.params.id 
+  //   let result = events.filter((item,key)=>{
+      
+  //     return item._id !== id ? 
+  //     console.log(item)
+  //      : 'Undefined ID'
+  //   })
+  //   // console.log(result);
+
+  //   setEvent({
+  //     event: result
+  //   })
+
+
+    
+  // }, [])
 
 
   const array = [
@@ -95,7 +109,8 @@ const ViewEvent = props => {
 
 
 
-
+  // console.log(event);
+  
   return (
     <div className="event-management-wrapper">
       <div className="row">
@@ -111,7 +126,7 @@ const ViewEvent = props => {
       </div>
 
       <div className="row">
-        <EditEvent headings={array} data={dataArray} />
+        <EditEventForm headings={array} data={event} />
       </div>
 
     </div>
@@ -119,4 +134,11 @@ const ViewEvent = props => {
 };
 
 
-export default withRouter(connect(null, {})(ViewEvent))
+let mapStateToProps = store => {
+  
+  return {
+    events: store.EventReducer.events
+  }
+}
+
+export default withRouter(connect(mapStateToProps, {})(EditEvent))

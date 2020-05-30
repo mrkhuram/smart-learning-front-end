@@ -16,8 +16,10 @@
       border: none;
       color: white;
       background-color: $primary;
-      border-radius: 0px;
+      border-radius: 3px;
       font-size: 12px;
+      margin-left: 10px;
+
       &:hover {
         cursor: pointer;
       }

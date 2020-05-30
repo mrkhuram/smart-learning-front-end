@@ -44,7 +44,7 @@ const AddNewEventStepper = props => {
   const [state, setState] = useState({
     english_tittle: null,
     arabic_tittle: null,
-    institute_id: useSelector(state => state.auth.institute_id),
+    institute_id: useSelector(state => state.auth.user_id),
     picture: null,
     english_description: null,
     arabic_description: null,

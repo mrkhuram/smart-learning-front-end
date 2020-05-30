@@ -47,6 +47,7 @@ class ServicesSlider extends React.Component {
       };
       return (
         <Slider {...settings} className="coursesSlider">
+            <Service /> 
             <Service />
             <Service />
             <Service />
@@ -54,8 +55,7 @@ class ServicesSlider extends React.Component {
             <Service />
             <Service />
             <Service />
-            <Service />
-            <Service />
+            <Service /> 
             <Service />
             <Service />
         </Slider>

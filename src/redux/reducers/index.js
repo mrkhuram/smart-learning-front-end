@@ -6,6 +6,7 @@ import CourseReducer from './institute/courseDetailReducer'
 import ChapterReducer from './institute/chapterReducer'
 import DegreeReducer from './institute/degreesReducer'
 import EventReducer from './institute/eventsReducer'
+import FreelancerServices from './freelancer/servicesReducer'
 
 let allReducer = {
     auth,
@@ -14,7 +15,8 @@ let allReducer = {
     CourseReducer,
     ChapterReducer,
     DegreeReducer,
-    EventReducer
+    EventReducer,
+    FreelancerServices
 }
 
 let reducers = combineReducers(allReducer)

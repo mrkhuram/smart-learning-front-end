@@ -11,7 +11,7 @@ import * as routes from '../../../constants/routePaths'
 
 
 let initState = {
-    institute_id: "5e9d4a5eab438002fc7d97df", // temporarily
+    user_id: "5e9d4a5eab438002fc7d97df", // temporarily
     userDetail: null,
     msg: null,
     err: null,

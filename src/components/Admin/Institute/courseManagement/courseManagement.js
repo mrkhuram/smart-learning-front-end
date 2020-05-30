@@ -37,7 +37,7 @@ const CourseManagement = props => {
 
   React.useEffect(()=>{
     // if(!userDetail.allCourses){
-      getCourses({institute_id: userDetail.institute_id },"institute")
+      getCourses({institute_id: userDetail.user_id },"institute")
     // }
   },[])
 
@@ -131,7 +131,7 @@ const CourseManagement = props => {
 let mapStateToProps = store => {
 
   return {
-    userDetail: store.CourseReducer
+    userDetail: store.auth
   }
 }
 let mapDispatchToProps = dispatch => {
